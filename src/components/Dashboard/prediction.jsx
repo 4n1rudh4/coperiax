@@ -30,7 +30,7 @@ function Prediction(){
       rainfall : ""
   })
     function handle(){
-        fetch("/predict-crop", {
+        fetch("https://coperiax-server.onrender.com/predict-crop", {
             method: 'POST',
             body: JSON.stringify({
                 N:values.N,P:values.P,K:values.K,temperature:values.temperature,humidity:values.humidity,pH:values.pH,rainfall:values.rainfall
