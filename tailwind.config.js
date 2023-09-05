@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'hero-pattern': "url('../public/resources/customer.png')",
+        'prediction-pattern': "url('../public/resources/crop.png')"
       }
     },
   },

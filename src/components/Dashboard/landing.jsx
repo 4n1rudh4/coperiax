@@ -32,19 +32,24 @@ function Landing(){
 
     return <>
          <Header date={date} name={username}/>
-        {state ? <div className="md:grid md:grid-cols-3 m-10  md:place-items-center">
-            <div className="w-11/12 h-96 bg-slate-300 rounded-xl bg-hero-pattern">
-                <div className="text-3xl font-bold m-2">Enter Your Details</div>
+        <div className="text-3xl flex md:justify-center w-full m-4 font-medium">Dashboard</div>
+        
+        {state ? <div className="block md:grid md:grid-cols-3 md:place-items-center">
+       
+            <div className="w-10/12 md:h-80 h-48 md:hover:w-11/12 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl bg-hero-pattern">
+                <div className="text-3xl font-bold m-2">Your Info</div>
 
             </div>
-            <div className="w-11/12 h-96 bg-slate-300 rounded-xl">
+            <a href="/ins">
+            <div className="w-10/12 h-48 md:h-80 md:hover:w-11/12 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl bg-prediction-pattern">
+                <div className="text-3xl font-bold m-2">Get Suitable Crop Recommendation</div>
+
+            </div></a>
+            <div className="w-10/12 h-48  md:hover:w-11/12 md:h-80 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl">
 
             </div>
-            <div className="w-11/12 h-96 bg-slate-300 rounded-xl">
-
-            </div>
-        </div>: <div className="block w-fit p-2 bg-green-200 m-auto mt-10 mb-10 rounded"><div className="text-3xl font-bold">You are not Logged in.<a href="/signup"> Click here to <button className="hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full">Signup or Login</button></a></div></div>}
-        <Footer/>
+        </div>: <div className="block w-fit p-2 bg-green-200 m-auto mt-10 mb-10 rounded"><div className="text-xl font-medium">You are not Logged in.<a href="/signup"> Click here to <button className="hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full">Signup or Login</button></a></div></div>}
+        <Footer />
     </>
 
 }

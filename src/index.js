@@ -7,6 +7,8 @@ import Profile from './components/Profile/Signup';
 import Login from './components/Profile/login';
 import Forgot from './components/Profile/forgot';
 import Landing from './components/Dashboard/landing';
+import Prediction from './components/Dashboard/prediction';
+import Ins from './components/Dashboard/ins';
 import Logout from './components/loggedout';
 import './globals.css';
 import App from './app';
@@ -58,6 +60,14 @@ import {
       {
         path:"/loggedout",
         element : <Logout/>
+      },
+      {
+        path:"/prediction",
+        element : <Prediction/>
+      },
+      {
+        path:"/ins",
+        element : <Ins/>
       }
   ]);
 

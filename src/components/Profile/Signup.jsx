@@ -2,7 +2,7 @@ import React, { useState,useEffect   } from "react";
 import Header from "../header";
 import Footer from "../footer";
 import {useNavigate} from "react-router-dom";
-import {createUserWithEmailAndPassword,updateProfile} from 'firebase/auth';
+import {createUserWithEmailAndPassword,updateProfile,sendEmailVerification} from 'firebase/auth';
 import {auth} from '../../firebase';
 
 function Signup(){
@@ -44,6 +44,7 @@ function Signup(){
             await updateProfile(user,{
                 displayName:values.name,
             });
+             sendEmailVerification(user)
             navigate('/login');
             setSubmitdisable(false)
 
@@ -80,7 +81,7 @@ function Signup(){
             </div>
         </div>
 
-        : <div className="bg-green-200 h-fit p-10 md:w-3/12 w-fit block m-auto mt-2 mb-2 rounded">Already Logged in<br/>
+        : <div className="bg-green-200 h-fit p-10 md:w-3/12 w-fit font-bold block m-auto mt-2 mb-2 rounded">Already Logged in<br/>
         <button type="submit" className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded" ><a href="/">Return to Home</a></button>
         </div>}
 

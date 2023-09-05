@@ -50,6 +50,7 @@ const App=()=>{
     return <>
     
         <Header date={date} name={username}/>
+        <div className="flex justify-center font-bold text-2xl pt-4">Top Agriculture News</div>
         <div className="block md:grid md:grid-cols-2">
         {news.map((props)=><News 
         props={props}

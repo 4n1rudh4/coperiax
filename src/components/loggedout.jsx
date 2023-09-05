@@ -7,11 +7,11 @@ function Logout(){
         const date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
 return <>
     <Header date={date}/>
-    <div className="block h-fit w-fit p-5 bg-green-200 rounded m-auto">
+    <div className="block h-fit w-fit p-5 text-xl mt-5 mb-5 bg-green-200 rounded m-auto">
         <div>
             You are now Logged Out.
             <br/>
-            Click here to <a className="text-green-700" href="/login">Login Again.</a>
+            Click here to <a className="text-green-700 font-bold" href="/login">Login Again.</a>
         </div>
     </div>
     <Footer/>

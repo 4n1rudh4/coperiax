@@ -1,7 +1,7 @@
 import React from "react";
 
 function Footer(){
-    return <div>
+    return <div >
         <div  className="bg-green-500 w-full h-auto" style={{backgroundImage: "url('./resources/f.jpg')"}}>
         <div className="text-black text-xl text-center p-10">
         Established in 2023, Agrow: Transforming Agriculture with Advanced Website Solutions and Industry Insights.

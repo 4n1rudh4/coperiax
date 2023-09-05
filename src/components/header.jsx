@@ -45,10 +45,10 @@ function Header(props) {
         </Navbar.Collapse>
         {props.name ?<div>
           <div className='flex flex-wrap text-sm'>Logged in as {props.name}</div>
-          <button type="submit" className=" hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600  rounded-full" onClick={logout}>Signout</button>
+          <button type="submit" className=" hover:bg-green-400 md:block m-auto h-fit p-1 w-fit first-letter: bg-green-600  rounded-full" onClick={logout}>SIGNOUT</button>
         </div>:null}
         <Navbar.Collapse className="justify-content-end">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand>
         
         <img
               src="./resources/user.png"

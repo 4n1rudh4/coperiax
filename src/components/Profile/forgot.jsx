@@ -43,7 +43,7 @@ function Login(){
                 }></input>
                     <button type="submit" onClick={handlesub} className=" hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full">Send Reset Link</button>
                     <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p>
-                    <div>Not a User? <a href="/signup" className="text-green-800">Signup</a></div>
+                    <div>Not a User? <a href="/signup" className="text-green-800 font-bold">Signup</a></div>
             </div>
         </div> :<div className="flex justify-center p-10 text-lg font-bolds"><div className="md:w-4/12 h-fit w-fit bg-green-200">Link for you Reset Password has been sent in you Email Address. Please check your Inbox.
         <br/>Return to <span className="text-green-700 font-bold"><a href="/">Home</a></span> </div></div>}
