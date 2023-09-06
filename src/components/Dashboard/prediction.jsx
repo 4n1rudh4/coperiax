@@ -4,6 +4,8 @@ import Footer from "../footer";
 import {auth} from '../../firebase';
 
 function Prediction(){
+  const [submitdisable,setSubmitdisable]=useState(false);  
+  const [error,setError]=useState("");
 
   var today = new Date();
     const date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
@@ -68,11 +70,19 @@ function Prediction(){
 
 
     function handle(){
+      if ( !values.N || !values.P || !values.K || !values.pH ){
+        setError("Fill All Fields Please")
+        return ;
+    }
+    
+    setError("");
+    setSubmitdisable(true)
       fetch(`https://coperiax-server.onrender.com/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`)
       .then((res) => res.json())
       .then((data) => {
         setCrop(data.crop);
         setState(false)
+        setSubmitdisable(false)
       })
       .catch((err) => {
          console.log(err.message);
@@ -81,7 +91,7 @@ function Prediction(){
     
     return <>
     <Header date={date} name={username}/>
-        <div className="flex justify-center w-full md:block md:w-10/12 md:m-auto">
+        <div className="flex justify-center w-full md:block md:w-10/12 md:m-auto p-2 ml-4">
         {state ? <div>
         <div className="m-2 text-2xl font-bold">Crop Predictor</div>
         <div className=" bg-green-200 w-11/12 rounded-2xl h-fit p-20 md:grid md:grid-cols-2 gap-4">
@@ -90,7 +100,7 @@ function Prediction(){
         <div className="text-green-700 font-bold">Enter Nitrogen Content</div>
           <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
               setValues((prev)=>(
-                {...prev,N:event.target.value}
+                {...prev,N:Math.round(event.target.value)}
               ))
             }}>
           </input>
@@ -99,16 +109,16 @@ function Prediction(){
         <div className="text-green-700 font-bold">Enter Phosphorous Content</div>
           <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
             setValues((prev)=>(
-              {...prev,P:event.target.value}
+              {...prev,P:Math.round(event.target.value)}
             ))
           }} >
           </input>
         </div>
         <div>
-        <div className="text-green-700 font-bold">Enter Potassium Content</div>
+        <div  className="text-green-700 font-bold">Enter Potassium Content</div>
           <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
             setValues((prev)=>(
-              {...prev,K:event.target.value}
+              {...prev,K:Math.round(event.target.value)}
             ))
           }} >
           </input>
@@ -129,7 +139,7 @@ function Prediction(){
         <div className="text-green-700 font-bold">Enter pH content of soil</div>
           <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
             setValues((prev)=>(
-              {...prev,pH:event.target.value}
+              {...prev,pH:Math.round(event.target.value)}
             ))
           }} >
           </input>
@@ -138,13 +148,12 @@ function Prediction(){
           {weather ? <div>Location : {weather.location.name},{weather.location.region},{weather.location.country}<br/>
           Rainfall : {weather.current.cloud*2} mm , Temperature : {weather.current.temp_c} C , humidity : {weather.current.humidity}</div>:null}
         </div>
-        
-        <button type="submit" onClick={handle} className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Predict</button>
+        <button type="submit" onClick={handle} disabled={submitdisable} className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Predict</button>
        <a href="/ins"> <button type="submit" className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Instructions</button></a>
-        </div></div>: <div className=" w-full bg-slate-50 md:flex md:justify-center text-green-700 text-2xl h-fit p-10">Crop Suitable for Follwing conditions:
+       <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p></div></div> : <div className=" w-full bg-slate-50 md:flex md:justify-center text-green-700 text-2xl h-fit p-10">Crop Suitable for Follwing conditions:
         <br/>  Nitrogen Content : {values.N} <br/> Phosphorous Content : {values.P}   <br/>Potassium Content : {values.K}  <br/> Location : {weather.location.name}, {weather.location.region},{weather.location.country}<br/>
           Rainfall : {weather.current.cloud*2} mm , Temperature : {weather.current.temp_c} C , humidity : {weather.current.humidity}  <br/> 
-         <span className="font-bold text-3xl block ">{crop.toUpperCase()}</span><div className="hover:bg-green-400 md:block text-lg  text-black h-fit w-fit bg-green-600 md:pl-4 p-2 rounded-full">Predict Fertilizer suitable For {crop.toUpperCase()}</div></div>}</div>
+         <span className="font-bold text-3xl block ">{crop.toUpperCase()}</span><div className="hover:bg-green-400 md:block text-lg  text-black h-fit w-fit bg-green-600 md:pl-4 ml-4  p-2 rounded-full">Predict Fertilizer suitable For {crop.toUpperCase()}</div></div>}</div>
           <Footer/>
     </>
 }

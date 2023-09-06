@@ -67,7 +67,7 @@ function Login(){
                     <div>Forgot Password? <a href="/forgot" className="text-green-800 font-bold">Reset</a></div>
             </div>
         </div> : Navigate("/dashboard")}
-        <Footer/>
+        <Footer  />
     </>
 }
 

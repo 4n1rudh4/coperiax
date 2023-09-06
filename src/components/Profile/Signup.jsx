@@ -88,7 +88,7 @@ function Signup(){
 
 
 
-        <Footer/>
+        <Footer />
     </>
 }
 

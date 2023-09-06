@@ -6,6 +6,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 
 function Login(){
+    const [submitdisable,setSubmitdisable]=useState(false);
     const [values,setValues] = useState({
         email : "",
     })
@@ -17,8 +18,11 @@ function Login(){
             setError("Fill All Fields Please")
             return ;
         }
+        setError("");
+        setSubmitdisable(true)
         sendPasswordResetEmail(auth,values.email).catch((err)=> {
             console.log("Error-",err)
+            setSubmitdisable(false)
             setError(err.message)
     });;
         setError("");
@@ -41,7 +45,7 @@ function Login(){
                     <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your Email" onChange={(event)=>
                     setValues((prev)=> ({...prev,email:event.target.value}))
                 }></input>
-                    <button type="submit" onClick={handlesub} className=" hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full">Send Reset Link</button>
+                    <button disabled={submitdisable} type="submit" onClick={handlesub} className=" hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full">Send Reset Link</button>
                     <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p>
                     <div>Not a User? <a href="/signup" className="text-green-800 font-bold">Signup</a></div>
             </div>
