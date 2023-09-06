@@ -25,28 +25,59 @@ function Prediction(){
       N : "",
       P : "",
       K : "",
-      temperature : "",
       pH:"",
-      rainfall : ""
+      state:""
   })
+  const [values2,setValues2] = useState({
+    temprature : "",
+    humidity:"",
+    rainfall:""
+})
+  
+
+  const [templocation,settempLocation]=useState({
+    location:""
+  });
+  const [location,setLocation]=useState("new delhi");
+  const [weather,setWeather]=useState(null);
+  const API = `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${location}`;
+
+  const fetchArticles = async (url) => {
+    console.log(location)
+    
+      try {
+        const res = await fetch(API);
+        const data = await res.json();
+        setWeather(data);
+        console.log(data)
+        setValues2({rainfall:weather.current.cloud,temprature:weather.current.temp_c,humidity:weather.current.humidity})   
+    } catch (e) {
+        console.error(e)
+    }   }
+
+    function handle1(){
+      setLocation(templocation.location);
+      fetchArticles();
+    }
+    
+
+    useEffect(() => {
+      fetchArticles(API);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+
     function handle(){
-        fetch("https://coperiax-server.onrender.com/predict-crop", {
-            method: 'POST',
-            body: JSON.stringify({
-                N:values.N,P:values.P,K:values.K,temperature:values.temperature,humidity:values.humidity,pH:values.pH,rainfall:values.rainfall
-              }),
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8',
-            },
-          })
-             .then((response) => response.json())
-             .then((data) => {
-                setCrop(data.predictedCrop);
-                setState(false)
-             })
-             .catch((err) => {
-                console.log(err.message);
-             });}
+      fetch(`https://coperiax-server.onrender.com/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCrop(data.crop);
+        setState(false)
+      })
+      .catch((err) => {
+         console.log(err.message);
+      });
+}
     
     return <>
     <Header date={date} name={username}/>
@@ -83,14 +114,17 @@ function Prediction(){
           </input>
         </div>
         <div>
-        <div className="text-green-700 font-bold">Enter Average Temperature</div>
+        <div className="text-green-700 font-bold">Enter your City/Town Eg. New Delhi</div>
           <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
-            setValues((prev)=>(
-              {...prev,temperature:event.target.value}
+            settempLocation((prev)=>(
+              {...prev,location:event.target.value}
             ))
           }} >
+          
           </input>
+          <button type="submit" onClick={handle1} className=" hover:bg-green-400 md:block m-auto h-fit w-fit bg-green-600 p-2 mt-2 rounded-full">Click Here to get Weather Details</button>
         </div>
+       
         <div>
         <div className="text-green-700 font-bold">Enter pH content of soil</div>
           <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
@@ -100,19 +134,18 @@ function Prediction(){
           }} >
           </input>
         </div>
-        <div>
-        <div className="text-green-700 font-bold">Enter Average Rainfall</div>
-          <input className="rounded-xl w-full p-1 m-2" onChange={(event)=>{
-            setValues((prev)=>(
-              {...prev,rainfall:event.target.value}
-            ))
-          }} >
-          </input>
-        </div>       
+        <div className="h-fit font-medium p-3">
+          {weather ? <div>Location : {weather.location.name},{weather.location.region},{weather.location.country}<br/>
+          Rainfall : {weather.current.cloud*2} mm , Temperature : {weather.current.temp_c} C , humidity : {weather.current.humidity}</div>:null}
+        </div>
+        
         <button type="submit" onClick={handle} className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Predict</button>
        <a href="/ins"> <button type="submit" className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Instructions</button></a>
-        </div></div>: <div>crop is {crop}</div>} </div>
-                  <Footer/>
+        </div></div>: <div className=" w-full bg-slate-50 md:flex md:justify-center text-green-700 text-2xl h-fit p-10">Crop Suitable for Follwing conditions:
+        <br/>  Nitrogen Content : {values.N} <br/> Phosphorous Content : {values.P}   <br/>Potassium Content : {values.K}  <br/> Location : {weather.location.name}, {weather.location.region},{weather.location.country}<br/>
+          Rainfall : {weather.current.cloud*2} mm , Temperature : {weather.current.temp_c} C , humidity : {weather.current.humidity}  <br/> 
+         <span className="font-bold text-3xl block ">{crop.toUpperCase()}</span><div className="hover:bg-green-400 md:block text-lg  text-black h-fit w-fit bg-green-600 md:pl-4 p-2 rounded-full">Predict Fertilizer suitable For {crop.toUpperCase()}</div></div>}</div>
+          <Footer/>
     </>
 }
 

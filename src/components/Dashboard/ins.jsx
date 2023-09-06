@@ -21,7 +21,13 @@ function Ins(){
     return <>
         <Header name={username} date={date}/>
         <div className="bg-green-200 border-2 rounded-lg h-fit w-11/12 mt-2 mb-2 m-auto">
-halo
+        <div className="flex text-2xl font-bold w-full justify-center p-2">Instructions</div>
+        <ul>
+            <li>
+                Create 
+            </li>
+        </ul>
+        https://www.indiamart.com/proddetail/soil-testing-kit-npk-ph-11190569148.html
         </div>
         <Footer/>
     </>

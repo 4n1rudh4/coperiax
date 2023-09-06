@@ -40,21 +40,22 @@ function WeatherApp() {
         
     }
 
-  function handlechange(event){
-    setQuery(event.target.value);
-  }
-  function handleclick(event){
-    console.log(query)
-    setLocation(query);
-    event.preventDefault();
-    fetchArticles();
-   
-  }
-
   useEffect(() => {
     fetchArticles(API);
     // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
+
+function handlechange(event){
+  setQuery(event.target.value);
+}
+function handleclick(event){
+  console.log(query)
+  setLocation(query);
+  event.preventDefault();
+  fetchArticles();
+ 
+}
+
 
     return (
       

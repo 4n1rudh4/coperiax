@@ -14,7 +14,15 @@ function ImgOverlayExample() {
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img src="./resources/hero.jpg" className='w-full h-auto' alt="hero"/>
+        <img src="./resources/hero2.png" className='w-full h-auto' alt="hero"/>
+        
+      </Carousel.Item>
+      <Carousel.Item>
+        <img src="./resources/hero3.png" className='w-full h-auto' alt="hero"/>
+        
+      </Carousel.Item>
+      <Carousel.Item>
+        <img src="./resources/hero4.png" className='w-full h-auto' alt="hero"/>
         
       </Carousel.Item>
     </Carousel>

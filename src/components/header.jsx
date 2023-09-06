@@ -39,6 +39,9 @@ function Header(props) {
               <NavDropdown.Item href="https://www.amazon.in/s?k=farming">
                 Shop Farm Equipment
               </NavDropdown.Item>
+              <NavDropdown.Item href="hhttps://www.deere.com/en/agriculture">
+                Procure Farm Machinery
+              </NavDropdown.Item>
               
             </NavDropdown>
           </Nav>
