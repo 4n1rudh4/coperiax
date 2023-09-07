@@ -43,13 +43,13 @@ function Landing(){
 
     return <>
          <Header date={date} name={username}/>
-        <div className="text-3xl flex md:justify-center w-full m-4 font-medium">Dashboard</div>
+        <div className="text-3xl flex md:justify-center w-full m-4 font-medium">Dashboard - Hi, {username}</div>
         <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
         
         {state ? <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4">
         <button  onClick={call}>
             <div className="md:w-96 w-fit md:h-80 h-fit p-2 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl md:bg-hero-pattern">
-                <div className="md:text-3xl text-lg font-bold m-2"> Your Info<br/> { state2 ?  <span className="text-lg   font-light"> <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>Name: {userdata.name}<br/> E-mail: {userdata.email} <br/> Phone: {userdata.phone} <br/> Field Size - hectares: {userdata.area} <br/> City/Town: {userdata.city} <br/> Current Crop: {userdata.crop} <br/> Production/Year - tonnes: {userdata.prod}</span> : null }</div>
+                <div className="md:text-3xl text-lg font-bold m-2"> Your Info<br/> { state2 ?  <span className="text-lg   font-light"> <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>Name: {userdata.name}<br/>{userdata.email} <br/> Phone: {userdata.phone} <br/> Field Size - hectares: {userdata.area} <br/> City/Town: {userdata.city} <br/> Current Crop: {userdata.crop} <br/> Production/Year - tonnes: {userdata.prod}</span> : null }</div>
             </div></button>
             <a href="/ins">
             <div className="w-8/12 md:h-80 h-fit p-2 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl md:bg-prediction-pattern">

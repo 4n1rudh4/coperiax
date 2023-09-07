@@ -11,6 +11,7 @@ function Signup(){
     const[state,setTrue]=useState(true);
     const [username,setUser]=useState("");
     const [state2,setTrue2]=useState(true);
+    const [state3,setTrue3]=useState(true);
     
     useEffect(()=>{
         auth.onAuthStateChanged((user)=>{
@@ -78,6 +79,7 @@ function Signup(){
 
     return <>
         <Header date={date} name={username}/>
+    {state3 ? <div>
     {state2 ? <div>
         { state ?
         <div className="block h-fit mt-2 mb-2 w-8/12 bg-green-100 rounded p-10 m-auto">
@@ -123,15 +125,15 @@ function Signup(){
                  <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your Current Crop" onChange={(event)=>
                     setValues((prev)=> ({...prev,crop:event.target.value}))
                 }></input>
-                    <input className=" border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="password" placeholder="Enter your Yearly Production Capacity(tonnes)" onChange={(event)=>
+                    <input className=" border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="number" placeholder="Enter your Yearly Production Capacity(tonnes)" onChange={(event)=>
                     setValues((prev)=> ({...prev,prod:event.target.value}))
                 }></input>
                     <button type="submit" disabled={submitdisable} className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={()=>{setTrue2(true)}}>Previous</button>
-                    <button type="submit"  className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={()=>{handlesub()}}>Signup</button>
+                    <button type="submit"  className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={()=>{handlesub(); setTrue3(false)}}>Signup</button>
                     <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p>
             <div>Already Logged in? <a href="/login" className="text-green-800 font-bold " >Login</a></div>
             </div>
-        </div>}
+        </div>}  </div> :<div className="bg-green-200 h-fit p-10 md:w-6/12 w-fit font-bold block m-auto mt-2 mb-2 rounded">Signed up Succesfully </div> }
 
 
 

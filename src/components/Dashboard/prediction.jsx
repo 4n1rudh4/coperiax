@@ -3,6 +3,7 @@ import Header from "../header";
 import Footer from "../footer";
 import {auth} from '../../firebase';
 
+
 function Prediction(){
   const [submitdisable,setSubmitdisable]=useState(false);  
   const [error,setError]=useState("");
@@ -52,7 +53,7 @@ function Prediction(){
         const data = await res.json();
         setWeather(data);
         console.log(data)
-        setValues2({rainfall:weather.current.cloud,temprature:weather.current.temp_c,humidity:weather.current.humidity})   
+        setValues2({rainfall:weather.current.cloud*2,temprature:weather.current.temp_c,humidity:weather.current.humidity})   
     } catch (e) {
         console.error(e)
     }   }

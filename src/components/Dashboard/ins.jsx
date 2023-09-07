@@ -27,7 +27,7 @@ function Ins(){
         <div className="text-xl p-2">
             <ul>
                 <li>
-                    To Get the predictions for a suitable crop for your field conditions you will have to first procure a NPK testing kit which can measure the <span className=" font-bold text-green-700">Nitrogen, Potassium , Phosphoruos contents in your field.</span> which will be used to accurately determine the crop.
+                    To Get the predictions for a suitable crop for your field conditions you will have to first procure a NPK testing kit which can measure the <span className=" font-bold text-green-700">Nitrogen, Potassium , Phosphoruos contents in your field.</span> which will be used to accurately determine the crop and fertilizer
                 </li>
             </ul>
         </div>
