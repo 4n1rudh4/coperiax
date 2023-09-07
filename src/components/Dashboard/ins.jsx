@@ -23,6 +23,7 @@ function Ins(){
         <Header name={username} date={date}/>
         <div className="bg-green-200 border-2 rounded-lg h-fit w-11/12 mt-2 mb-2 m-auto">
         <div className="flex text-2xl font-bold w-full justify-center p-2">Instructions</div>
+        <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
         <div className="text-xl p-2">
             <ul>
                 <li>

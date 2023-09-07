@@ -61,12 +61,12 @@ function handleclick(event){
       
       <div>
       <Header date={date}  name={username} />
-      <div className=" flex justify-center pb-5">
-      <div className="m-3 text-xl font-bold">Enter Location For Weather Resutls</div>
+      <div className=" flex justify-center ">
+      <div className="m-3 text-xl font-bold">Enter Location For Weather Results</div>
         <form onSubmit={handleclick} className="md:flex block gap-2 pt-2">
                     <input className=" border-2 rounded border-bg-white h-10 w-52 text-black bg-white" value={query} onChange={handlechange} type="text" placeholder="Enter Location"></input>
                     <button type="submit" className=" hover:border-green-500 hover:border-2 hover:text-white text-black md:block h-fit w-fit first-letter: bg-green-600 p-2 rounded-full">Search</button></form></div> 
-
+                    <hr className="block pb-4 m-auto w-11/12 border-2 border-bg-black"/>
         {weather ? (
           <div className="block pb-10 md:grid md:place-items-center md:grid-cols-2 ">
           <div className="bg-slate-200 rounded h-fit md:h-48 md:w-11/12 w-4/5 block m-auto md:flex md:justify-center"><div className="font-bold">Current</div>

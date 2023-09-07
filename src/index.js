@@ -69,6 +69,7 @@ import {
         path:"/ins",
         element : <Ins/>
       }
+
   ]);
 
 

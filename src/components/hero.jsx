@@ -29,7 +29,9 @@ function ImgOverlayExample() {
     <div className='block text-center pt-2'>
     <button className="md:hidden  m-auto h-fit w-fit first-letter: bg-green-600 p-3 hover:bg-green-200 font-bold text-black text-2xl mt-2 rounded-full"><a href="/login">Click here to get Started</a></button>
        <p className='md:hidden font-medium  text-lg'>Agrow is a comprehensive online platform meticulously designed to empower farmers in their agricultural pursuits. Leveraging cutting-edge technology, it offers an array of indispensable tools and resources to aid farmers in optimizing their crop cultivation and financial management.</p>
-    <p className='font-bold text-xl  p-5'>Sailient Features</p></div>
+    
+    <p className='font-bold text-xl  p-2'>Sailient Features</p></div>
+    <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
     <div className='md:grid md:grid-cols-2'>
     {Data.map((props) => (
                 <Cards

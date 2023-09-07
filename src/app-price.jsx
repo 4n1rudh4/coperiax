@@ -53,7 +53,9 @@ import {auth} from './firebase';
     return(
         <div>
         <Header date={date} name={username}/>
+        
         <p className="flex justify-center font-medium text-2xl p-4">Prices of Daily Mandi Sale Prices - {date}</p>
+        <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
         <div className="text-white bg-white flex gap-3 justify-center p-2">
                 <button className="hover:bg-green-200 md:block bg-green-600 p-2 rounded-full" onClick={()=> {Tog2();}}>Previous Page</button>
                 <button className="hover:bg-green-200 md:block bg-green-600 p-2 rounded-full" onClick={()=> {Tog1();}}>Next Page</button>

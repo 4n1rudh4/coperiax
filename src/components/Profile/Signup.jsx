@@ -3,11 +3,14 @@ import Header from "../header";
 import Footer from "../footer";
 import {useNavigate} from "react-router-dom";
 import {createUserWithEmailAndPassword,updateProfile,sendEmailVerification} from 'firebase/auth';
-import {auth} from '../../firebase';
+import {auth,db} from '../../firebase';
+import {doc,setDoc  } from "firebase/firestore";
+
 
 function Signup(){
     const[state,setTrue]=useState(true);
     const [username,setUser]=useState("");
+    const [state2,setTrue2]=useState(true);
     
     useEffect(()=>{
         auth.onAuthStateChanged((user)=>{
@@ -27,12 +30,18 @@ function Signup(){
     const [values,setValues] = useState({
         name : "",
         email : "",
-        password : ""
+        password : "",
+        phone : "",
+        area:"",
+        city:"",
+        crop:"",
+        prod:""
     })
     const [error,setError]=useState("");
     const [submitdisable,setSubmitdisable]=useState(false);    
+   
     function handlesub(){
-        if (!values.name || !values.email || !values.password){
+        if (!values.phone || !values.name || !values.email || !values.password || !values.prod ||    !values.crop || !values.area || !values.city){
             setError("Fill All Fields Please")
             return ;
         }
@@ -47,7 +56,16 @@ function Signup(){
              sendEmailVerification(user)
             navigate('/login');
             setSubmitdisable(false)
-
+            await setDoc(doc(db, "userdetails", user.uid), {
+                name: values.name,
+                email:values.email,
+                password:values.password,
+                phone:values.phone,
+                area:values.area,
+                city:values.city,
+                crop:values.crop,
+                prod:values.prod
+              });
         }).catch((err)=> {
             console.log("Error-",err)
             setSubmitdisable(false)
@@ -56,13 +74,15 @@ function Signup(){
     }
     var today = new Date();
         const date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+    
 
     return <>
         <Header date={date} name={username}/>
-
+    {state2 ? <div>
         { state ?
         <div className="block h-fit mt-2 mb-2 w-8/12 bg-green-100 rounded p-10 m-auto">
         <div className="text-2xl font-bold pb-4">Signup to AGROW</div>
+        <hr className="block pb-4 m-auto w-11/12 border-2 border-bg-black"/>
             <div className="block  h-fit w-fit m-auto">
                 
                 <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 text-black w-fit bg-white" type="text" placeholder="Enter your Name" 
@@ -72,19 +92,46 @@ function Signup(){
                     <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your Email" onChange={(event)=>
                     setValues((prev)=> ({...prev,email:event.target.value}))
                 }></input>
+                 <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your Phone Number" onChange={(event)=>
+                    setValues((prev)=> ({...prev,phone:event.target.value}))
+                }></input>
                     <input className=" border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="password" placeholder="Enter your Password" onChange={(event)=>
                     setValues((prev)=> ({...prev,password:event.target.value}))
                 }></input>
-                    <button type="submit" disabled={submitdisable} className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={handlesub}>Signup</button>
+                    <button type="submit" disabled={submitdisable} className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={()=>{setTrue2(false)}}>Next</button>
                     <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p>
             <div>Already Logged in? <a href="/login" className="text-green-800 font-bold " >Login</a></div>
             </div>
         </div>
 
-        : <div className="bg-green-200 h-fit p-10 md:w-3/12 w-fit font-bold block m-auto mt-2 mb-2 rounded">Already Logged in<br/>
-        <button type="submit" className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded" ><a href="/">Return to Home</a></button>
+        : <div className="bg-green-200 h-fit p-10 md:w-6/12 w-fit font-bold block m-auto mt-2 mb-2 rounded">Already Logged in<br/>
+        <hr className="block p-2 m-auto w-11/12 border-2 border-bg-black"/>
+        <button type="submit" className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto  h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded" ><a href="/">Return to Home</a></button>
+        <button type="submit" className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded" ><a href="/dashboard">Go to Dashboard</a></button>
+        </div>} </div> : <div className="block h-fit mt-2 mb-2 w-8/12 bg-green-100 rounded p-10 m-auto">
+        <div className="text-2xl font-bold pb-4">Signup to AGROW</div>
+        <hr className="block pb-4 m-auto w-11/12 border-2 border-bg-black"/>
+            <div className="block  h-fit w-fit m-auto">
+                
+                <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 text-black w-fit bg-white" type="text" placeholder="Enter your Field Size in Hectares" 
+                onChange={(event)=>
+                    setValues((prev)=> ({...prev,area:event.target.value}))
+                }></input>
+                    <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your City/Town" onChange={(event)=>
+                    setValues((prev)=> ({...prev,city:event.target.value}))
+                }></input>
+                 <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your Current Crop" onChange={(event)=>
+                    setValues((prev)=> ({...prev,crop:event.target.value}))
+                }></input>
+                    <input className=" border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="password" placeholder="Enter your Yearly Production Capacity(tonnes)" onChange={(event)=>
+                    setValues((prev)=> ({...prev,prod:event.target.value}))
+                }></input>
+                    <button type="submit" disabled={submitdisable} className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={()=>{setTrue2(true)}}>Previous</button>
+                    <button type="submit"  className="disabled:bg-slate-500 hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full" onClick={()=>{handlesub()}}>Signup</button>
+                    <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p>
+            <div>Already Logged in? <a href="/login" className="text-green-800 font-bold " >Login</a></div>
+            </div>
         </div>}
-
 
 
 

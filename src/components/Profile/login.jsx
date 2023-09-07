@@ -53,6 +53,7 @@ function Login(){
         <Header date={date} name={username}/>
         {state ? <div className="block h-fit mt-2 mb-2 w-8/12 bg-green-100 rounded p-10 m-auto">
         <div className="text-2xl font-bold pb-4">Login to AGROW</div>
+        <hr className="block pb-4 m-auto w-11/12 border-2 border-bg-black"/>
             <div className="block  h-fit w-fit m-auto">
                 
                     <input className="block mb-2 border-2 rounded-full border-bg-white h-10 md:w-96 w-fit text-black bg-white" type="text" placeholder="Enter your Email" onChange={(event)=>

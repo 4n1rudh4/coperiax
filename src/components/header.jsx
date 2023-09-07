@@ -14,7 +14,6 @@ function Header(props) {
   }
 
   const navigate=useNavigate();
-  console.log(props.name)
   return (
     <>
       <Navbar className="bg-green-500">
@@ -39,7 +38,7 @@ function Header(props) {
               <NavDropdown.Item href="https://www.amazon.in/s?k=farming">
                 Shop Farm Equipment
               </NavDropdown.Item>
-              <NavDropdown.Item href="hhttps://www.deere.com/en/agriculture">
+              <NavDropdown.Item href="https://www.deere.com/en/agriculture">
                 Procure Farm Machinery
               </NavDropdown.Item>
               
@@ -76,6 +75,10 @@ function Header(props) {
               <NavDropdown.Item href="https://www.amazon.in/s?k=farming">
                 Shop
               </NavDropdown.Item>
+              <NavDropdown.Item href="https://www.deere.com/en/agriculture">
+                  Machinery
+              </NavDropdown.Item>
+              
               </div>
 
               
