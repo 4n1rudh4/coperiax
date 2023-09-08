@@ -79,7 +79,7 @@ function Prediction(){
         <div>
         
         </div>
-        <button type="submit" onClick={handle} disabled={submitdisable} className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Predict</button>
+        <button type="submit" onClick={()=> {handle();setCrop("OK");setSoil("OK")}} disabled={submitdisable} className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Predict</button>
        <a href="/ins"> <button type="submit" className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Instructions</button></a>
        <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p></div></div> : <div className=" w-full bg-slate-50 md:flex md:justify-center text-green-700 text-2xl h-fit p-10">Fertilizer Suitable Recommended:
          <span className="font-bold text-3xl p-2 block ">{fert}</span><Link className="link" to="/dashboard" ><div className="hover:bg-green-400 md:block text-lg  text-black h-fit w-fit bg-green-600 md:pl-4 ml-4  p-2 rounded-full">Return To Dashboard</div></Link></div>}</div>
