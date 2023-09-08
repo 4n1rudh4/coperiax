@@ -2,7 +2,7 @@ import React,{useState,useEffect} from "react";
 import Header from "../header";
 import Footer from "../footer";
 import {auth} from '../../firebase';
-
+import { Link } from "react-router-dom";
 
 function Prediction(){
   const [submitdisable,setSubmitdisable]=useState(false);  
@@ -155,7 +155,7 @@ function Prediction(){
        <p className="flex font-medium flex-nowrap justify-center text-red-500">{error}</p></div></div> : <div className=" w-full bg-slate-50 md:flex md:justify-center text-green-700 text-2xl h-fit p-10">Crop Suitable for Follwing conditions:
         <br/>  Nitrogen Content : {values.N} <br/> Phosphorous Content : {values.P}   <br/>Potassium Content : {values.K}  <br/> Location : {weather.location.name}, {weather.location.region},{weather.location.country}<br/>
           Rainfall : {weather.current.cloud*2} mm , Temperature : {weather.current.temp_c} C , humidity : {weather.current.humidity}  <br/> 
-         <span className="font-bold text-3xl p-2 block ">{crop.toUpperCase()}</span><div className="hover:bg-green-400 md:block text-lg  text-black h-fit w-fit bg-green-600 md:pl-4 ml-4  p-2 rounded-full">Predict Fertilizer suitable For {crop.toUpperCase()}</div></div>}</div>
+         <span className="font-bold text-3xl p-2 block ">{crop.toUpperCase()}</span><Link className="link" to="/prediction2" state={{'temperature':weather.current.temp_c,'humidity' : weather.current.humidity,'N':values.N,"P":values.P,"K":values.K,'moisture':weather.current.precip_mm,'crop':crop}}><div className="hover:bg-green-400 md:block text-lg  text-black h-fit w-fit bg-green-600 md:pl-4 ml-4  p-2 rounded-full">Predict Fertilizer</div></Link></div>}</div>
           <Footer/>
     </>
 }

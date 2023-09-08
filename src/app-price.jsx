@@ -77,7 +77,7 @@ import {auth} from './firebase';
                 <tr>
                     <td>{props.state}</td>
                     <td>{props.commodity}</td>
-                    <td>₹⟩{props.modal_price}</td>
+                    <td>₹⟩{props.modal_price/50} / KG </td>
                 </tr>
             )})}
                 </tbody>

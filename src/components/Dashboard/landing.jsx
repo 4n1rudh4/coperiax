@@ -43,7 +43,7 @@ function Landing(){
 
     return <>
          <Header date={date} name={username}/>
-        <div className="text-3xl flex md:justify-center w-full m-4 font-medium">Dashboard - Hi, {username}</div>
+        <div className="text-3xl flex md:justify-center w-full m-4 font-medium">Dashboard {username}</div>
         <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
         
         {state ? <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4">

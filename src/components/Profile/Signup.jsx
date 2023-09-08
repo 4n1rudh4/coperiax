@@ -42,7 +42,7 @@ function Signup(){
     const [submitdisable,setSubmitdisable]=useState(false);    
    
     function handlesub(){
-        if (!values.phone || !values.name || !values.email || !values.password || !values.prod ||    !values.crop || !values.area || !values.city){
+        if (!values.phone || !values.name || !values.email || !values.password){
             setError("Fill All Fields Please")
             return ;
         }
