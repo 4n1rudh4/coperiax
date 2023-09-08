@@ -28,8 +28,8 @@ function Prediction(){
         })
     })
     const[error,setError]=useState("");
-    const [soil,setSoil] = useState("");
-    const [crop,setCrop] = useState("");
+    const [soil,setSoil] = useState("Sandy");
+    const [crop,setCrop] = useState("Maize");
     function handle(){
       if ( !soil ){
         setError("Fill All Fields Please")
@@ -51,6 +51,7 @@ function Prediction(){
          console.log(err.message);
       });
 }
+
     
     return <>
     <Header date={date} name={username}/>
@@ -71,13 +72,36 @@ function Prediction(){
         <div  className="text-green-700 font-bold">Potassium Content : {propsData.K}</div>
         </div>
         <div>
-        <div  className="text-green-700 font-bold">Temperature : {propsData.temperature}</div>
+        <div  className="text-green-700 font-bold">Temperature :{propsData.temperature}</div>
         </div>
         <div>
         <div  className="text-green-700 font-bold">Humidity : {propsData.humidity}</div>
         </div>
         <div>
-        
+          <label className="text-green-700 font-bold">Select Crop Type   
+            <select value={crop} onChange={(event)=>setCrop(event.target.value)}>
+              <option value="Maize">Maize</option>
+              <option value="Sugarcane">Sugarcane</option>
+              <option value="Cotton">Cotton</option>
+              <option value="Tobacco">Tobacco</option>
+              <option value="Paddy">Paddy</option>
+              <option value="Barley">Barley</option>
+              <option value="Wheat">Wheat</option>
+              <option value="Millets">Millets</option>
+              <option value="Oil seeds">Oil seeds</option>
+              <option value="Pulses">Pulses</option>
+              <option value="Ground Nuts">Ground Nuts</option>
+            </select>
+          </label>
+          <label className="text-green-700 font-bold">Select Soil Type   
+            <select value={soil} onChange={(event)=>setSoil(event.target.value)}>
+              <option value="Sandy">Sandy</option>
+              <option value="Loamy">Loamy</option>
+              <option value="Black">Black</option>
+              <option value="Red">Red</option>
+              <option value="Clayey">Clayey</option>
+            </select>
+          </label>
         </div>
         <button type="submit" onClick={()=> {handle();setCrop("OK");setSoil("OK")}} disabled={submitdisable} className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Predict</button>
        <a href="/ins"> <button type="submit" className=" hover:bg-green-400 md:block m-auto h-fit w-full first-letter: bg-green-600 p-2 mt-2 rounded-full">Instructions</button></a>

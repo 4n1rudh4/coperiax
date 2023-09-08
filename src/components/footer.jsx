@@ -11,7 +11,6 @@ function Footer(){
             <div className="flex w-full h-20 justify-evenly text-black text-lg">
                 <div>© Copyright 2023 </div>
                 <div>Made with love - Team Agrow</div>
-                
             </div>
         </div>
     </div>
