@@ -75,6 +75,10 @@ function Prediction(){
         setError("Fill All Fields Please")
         return ;
     }
+    if ( values.N>200 || values.P>200 || values.K>200 || values.pH>15 || values.N<1 || values.P<1 || values.K<1 || values.pH<1  ){
+      setError("Please enter Reasonable values")
+      return ;
+  }
     
     setError("");
     setSubmitdisable(true)
