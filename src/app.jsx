@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/header";
-import Hero from "./components/hero";
+
 import Footer from "./components/footer";
+import Hero from "./components/hero";
 import { auth } from "./firebase";
 function App() {
     const [username, setUser] = useState("");
