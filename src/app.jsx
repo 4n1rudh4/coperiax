@@ -4,6 +4,8 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Hero from "./components/hero";
 import { auth } from "./firebase";
+import { motion, AnimatePresence } from "framer-motion";
+
 function App() {
     const [username, setUser] = useState("");
     useEffect(() => {
@@ -25,11 +27,11 @@ function App() {
         today.getFullYear();
 
     return (
-        <div className="h-screen bg-grey font-poppins   ">
+        <motion.div className="font-poppins">
             <Header date={date} name={username} />
             <Hero />
-            {/* <Footer/> */}
-        </div>
+            <Footer />
+        </motion.div>
     );
 }
 

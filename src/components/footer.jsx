@@ -1,19 +1,23 @@
 import React from "react";
 
-function Footer(){
-    return <div  >
-        <div  className="bg-green-500 w-full h-auto"    >
-        
-        <div className="text-black text-xl text-center p-2">
-        
-        Established in 2023, Agrow: Transforming Agriculture with Advanced Website Solutions and Industry Insights.
-        </div><hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
-            <div className="flex w-full h-20 justify-evenly text-black text-lg">
+function Footer() {
+    return (
+        <footer className="footer p-10 w-full flex flex-row justify-between bg-white text-content">
+            <aside>
+                <p>
+                    Established in 2023,{" "}
+                    <span className="font-bold">Agrow</span>.
+                    <br />
+                    Transforming Agriculture with Advanced Website Solutions and
+                    Industry Insights.
+                </p>
+            </aside>
+            <div>
                 <div>© Copyright 2023 </div>
                 <div>Made with love - Team Agrow</div>
             </div>
-        </div>
-    </div>
+        </footer>
+    );
 }
 
 export default Footer;
