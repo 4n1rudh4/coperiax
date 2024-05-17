@@ -19,6 +19,8 @@ module.exports = {
             },
             fontFamily: {
                 poppins: ["Poppins"],
+                cabin: ["Cabin"],
+                inter: ["Inter"],
             },
         },
         daisyui: {

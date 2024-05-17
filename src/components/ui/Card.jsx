@@ -9,11 +9,11 @@ function Card({ src, details, title }) {
                 />
             </figure>
             <div className="card-body w-2/3">
-                <h2 className="card-title">{title}</h2>
-                <p>{details}</p>
-                <div className="card-actions justify-end tracking-wider">
+                <h2 className="card-title font-cabin">{title}</h2>
+                <p className="font-poppins text-base">{details}</p>
+                {/* <div className="card-actions justify-end tracking-wider">
                     <button className="btn btn-primary">View</button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

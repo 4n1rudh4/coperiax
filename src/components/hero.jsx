@@ -1,8 +1,19 @@
 import Card from "./ui/Card";
 import cardsDetails from "../resources/carddata";
+import { motion } from "framer-motion";
 function Hero() {
     return (
-        <main className="px-20 py-10">
+        <motion.main
+            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 500 }}
+            exit={{ opacity: 0, y: 500 }}
+            transition={{
+                duration: 1,
+                ease: [0.2, 1, 0.2, 1],
+                delay: 0.25,
+            }}
+            className="px-20 py-10"
+        >
             <div className=" flex items-center justify-center" id="hero">
                 <div
                     className="hero h-[35rem] w-[90%] rounded-xl"
@@ -11,13 +22,30 @@ function Hero() {
                             "url(https://ezfloinjection.com/wp-content/uploads/what-is-precision-agriculture-2.jpg)",
                     }}
                 >
-                    <div className="hero-overlay bg-black bg-opacity-0"></div>
-                    {/* <div className="hero-content text-center  flex items-start justify-start flex-col w-full">
-                        <div className=" text-white text-left bg-[#232c06] bg-opacity-40 p-5 rounded-md backdrop-blur-md ">
-                            <h1 className="mb-5 text-4xl font-bold">
+                    <div className="hero-content text-center  flex items-start justify-end h-full flex-col w-full">
+                        <div className=" text-white text-left bg-opacity-40 p-5 rounded-md  ">
+                            <motion.h1
+                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 100 }}
+                                transition={{
+                                    duration: 0.8,
+                                    ease: [0.2, 1, 0.2, 1],
+                                    delay: 0.5,
+                                }}
+                                className="mb-5 text-4xl font-bold font-cabin"
+                            >
                                 Agrow FieldTech
-                            </h1>
-                            <p className="mb-5 w-[35rem] text-base">
+                            </motion.h1>
+                            <motion.p
+                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 100 }}
+                                transition={{
+                                    duration: 0.8,
+                                    ease: [0.2, 1, 0.2, 1],
+                                    delay: 0.9,
+                                }}
+                                className="mb-5 w-[35rem] text-base"
+                            >
                                 Agrow is a comprehensive online platform
                                 meticulously designed to empower farmers in
                                 their agricultural pursuits. Leveraging
@@ -25,18 +53,27 @@ function Hero() {
                                 indispensable tools and resources to aid farmers
                                 in optimizing their crop cultivation and
                                 financial management.
-                            </p>
-                            <button className="btn btn-primary bg-[#f7bf84] border-0 hover:bg-[#232c06] text-white">
+                            </motion.p>
+                            <motion.button
+                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 100 }}
+                                transition={{
+                                    duration: 0.8,
+                                    ease: [0.2, 1, 0.2, 1],
+                                    delay: 1.2,
+                                }}
+                                className="btn btn-primary bg-[#f7bf84] border-0 hover:bg-[#232c06] text-white"
+                            >
                                 Explore
                                 <span class="material-symbols-outlined">
                                     arrow_forward
                                 </span>
-                            </button>
+                            </motion.button>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
-            <h3 className="text-3xl font-bold mt-20">
+            <h3 className="text-3xl font-bold mt-20 font-cabin">
                 Some of the Services we provide
             </h3>
             <div className="grid grid-cols-2 mt-10  gap-5">
@@ -48,7 +85,7 @@ function Hero() {
                     />
                 ))}
             </div>
-        </main>
+        </motion.main>
     );
 }
 

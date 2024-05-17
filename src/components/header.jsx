@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-
+import { motion } from "framer-motion";
 function Header(props) {
     function logout() {
         navigate("/loggedout");
@@ -12,7 +12,16 @@ function Header(props) {
     const navigate = useNavigate();
     return (
         <>
-            <div className="navbar  px-32 py-8  bg-white">
+            <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -500 }}
+                exit={{ opacity: 0, y: -500 }}
+                transition={{
+                    duration: 1,
+                    ease: [0.2, 1, 0.2, 1],
+                }}
+                className="navbar  px-32 py-8 font-cabin bg-white"
+            >
                 <div className="flex-1">
                     <Link
                         to={"/"}
@@ -25,7 +34,7 @@ function Header(props) {
                         />
                     </Link>
 
-                    <ul className="menu menu-horizontal px-1">
+                    <ul className="menu menu-horizontal px-1 text-base">
                         <li>
                             <Link to={"/news"}>News Today</Link>
                         </li>
@@ -36,7 +45,7 @@ function Header(props) {
                         <li>
                             <details>
                                 <summary>Farm Aids</summary>
-                                <ul className="p-2 w-52 bg-base-100 rounded-t-none">
+                                <ul className="p-2 w-52 rounded-t-none bg-white">
                                     <li>
                                         <a>Prices of Daily Commodities</a>
                                     </li>
@@ -71,7 +80,7 @@ function Header(props) {
                                 </div>
                                 <ul
                                     tabIndex={0}
-                                    className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4"
+                                    className="menu dropdown-content z-[1] p-2 shadow  rounded-box w-52 mt-4 bg-white"
                                 >
                                     <li>
                                         <Link to={"/dashboard"}>Dashboard</Link>
@@ -93,7 +102,7 @@ function Header(props) {
                         )}
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </>
     );
 }

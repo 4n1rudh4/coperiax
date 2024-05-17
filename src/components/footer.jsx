@@ -2,9 +2,9 @@ import React from "react";
 
 function Footer() {
     return (
-        <footer className="footer p-10 w-full flex flex-row justify-between bg-white text-content">
+        <footer className="footer p-10 w-full flex flex-row justify-between bg-white text-content font-cabin">
             <aside>
-                <p>
+                <p className="text-base">
                     Established in 2023,{" "}
                     <span className="font-bold">Agrow</span>.
                     <br />
@@ -12,9 +12,9 @@ function Footer() {
                     Industry Insights.
                 </p>
             </aside>
-            <div>
-                <div>© Copyright 2023 </div>
-                <div>Made with love - Team Agrow</div>
+            <div className="text-base">
+                <p>© Copyright 2023 </p>
+                <p>Made with love - Team Agrow</p>
             </div>
         </footer>
     );
