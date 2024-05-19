@@ -3,7 +3,7 @@ import Header from "../header";
 import Footer from "../footer";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
-
+import { motion } from "framer-motion";
 function Ins() {
     var today = new Date();
     const date =
@@ -27,7 +27,17 @@ function Ins() {
     return (
         <div className="bg-[#dde7c7]">
             <Header name={username} date={date} />
-            <div className="rounded-lg h-screen  my-10 px-20">
+
+            <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 100 }}
+                transition={{
+                    duration: 0.8,
+                    ease: [0.2, 1, 0.2, 1],
+                    delay: 0.9,
+                }}
+                className="rounded-lg h-screen  my-10 p-20 "
+            >
                 <h1 className=" text-3xl font-bold font-cabin text-center">
                     Instructions
                 </h1>
@@ -80,7 +90,7 @@ function Ins() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
             <Footer />
         </div>
     );
