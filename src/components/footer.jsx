@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
     return (
-        <footer className="footer p-10 w-full flex flex-row justify-between bg-white text-content font-cabin">
+        <footer className="footer p-10 w-full flex flex-row justify-between bg-brwn-0 text-content font-cabin">
             <aside>
                 <p className="text-base">
                     Established in 2023,{" "}

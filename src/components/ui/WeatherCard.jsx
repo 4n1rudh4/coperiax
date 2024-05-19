@@ -8,10 +8,14 @@ function WeatherCard({
     title,
 }) {
     return (
-        <div className="card bg-base-100 shadow-xl">
-            <figure className="px-10 pt-10">
-                <img src={src} alt="Weather Icon" className="rounded-xl" />
-            </figure>
+        <div className="card  outline outline-2 outline-black flex items-center flex-row-reverse justify-center  ">
+            <div className="px-10 pt-10">
+                <img
+                    src={src}
+                    alt="Weather Icon"
+                    className="h-20 w-20 scale-110"
+                />
+            </div>
             <div className="card-body items-start text-center">
                 <h1 className="card-title">{title}</h1>
 

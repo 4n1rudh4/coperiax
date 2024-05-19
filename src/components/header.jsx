@@ -20,7 +20,7 @@ function Header(props) {
                     duration: 1,
                     ease: [0.2, 1, 0.2, 1],
                 }}
-                className="navbar  px-32 py-8 font-cabin bg-white"
+                className="navbar px-32 py-2 font-cabin sticky top-0 z-[100] bg-[#E7E1C7]  text-base"
             >
                 <div className="flex-1">
                     <Link
@@ -34,7 +34,7 @@ function Header(props) {
                         />
                     </Link>
 
-                    <ul className="menu menu-horizontal px-1 text-base">
+                    <ul className="menu menu-horizontal px-1 text-lg">
                         <li>
                             <Link to={"/news"}>News Today</Link>
                         </li>
@@ -45,9 +45,11 @@ function Header(props) {
                         <li>
                             <details>
                                 <summary>Farm Aids</summary>
-                                <ul className="p-2 w-52 rounded-t-none bg-white">
+                                <ul className="p-2 w-52 rounded-t-none  bg-[#E7E1C7]">
                                     <li>
-                                        <a>Prices of Daily Commodities</a>
+                                        <Link to={"/price"}>
+                                            Prices of Daily Commodities
+                                        </Link>
                                     </li>
                                     <li>
                                         <a href="https://www.amazon.in/s?k=farming">
@@ -74,18 +76,18 @@ function Header(props) {
                                     role="button"
                                     className="btn btn-ghost rounded-btn "
                                 >
-                                    <span className="capitalize">
+                                    <span className="capitalize text-lg">
                                         Welcome, {props.name}
                                     </span>
                                 </div>
                                 <ul
                                     tabIndex={0}
-                                    className="menu dropdown-content z-[1] p-2 shadow  rounded-box w-52 mt-4 bg-white"
+                                    className="menu dropdown-content z-[1] p-2 shadow  rounded-box w-52 mt-4  bg-[#E7E1C7]"
                                 >
-                                    <li>
+                                    <li className="text-base">
                                         <Link to={"/dashboard"}>Dashboard</Link>
                                     </li>
-                                    <li>
+                                    <li className="text-base">
                                         <button onClick={logout}>Logout</button>
                                     </li>
                                 </ul>

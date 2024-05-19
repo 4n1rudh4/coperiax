@@ -31,7 +31,11 @@ function WeatherApp() {
     const API = `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${query}`;
 
     async function fetchWeather() {
+        if (query === "") {
+            return alert("Please Enter A Location");
+        }
         setLoading(true);
+
         try {
             const res = await fetch(API);
             const data = await res.json();
@@ -56,7 +60,7 @@ function WeatherApp() {
         fetchWeather();
     }
     return (
-        <div>
+        <div className=" bg-[#dde7c7]">
             <Header date={date} name={username} />
             <motion.div
                 animate={{ opacity: 1, y: 0 }}
@@ -73,12 +77,12 @@ function WeatherApp() {
                     <div className="w-96 flex items-center gap-2">
                         <input
                             type="text"
-                            className="grow input input-bordered capitalize"
+                            className=" input bg-[#dde7c7] capitalize outline outline-1 outline-black focus:outline-none"
                             placeholder="Start With Your Location"
                             value={query}
                             onChange={handlechange}
                         />
-                        <button className="btn" onClick={handleclick}>
+                        <button className="btn  " onClick={handleclick}>
                             <span class="material-symbols-outlined">
                                 search
                             </span>

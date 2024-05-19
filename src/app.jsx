@@ -27,7 +27,7 @@ function App() {
         today.getFullYear();
 
     return (
-        <motion.div className="font-poppins">
+        <motion.div className="font-poppins bg-[#dde7c7] ">
             <Header date={date} name={username} />
             <Hero />
             <Footer />

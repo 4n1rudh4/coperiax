@@ -12,7 +12,7 @@ function Hero() {
                 ease: [0.2, 1, 0.2, 1],
                 delay: 0.25,
             }}
-            className="px-20 py-10"
+            className="px-20 py-10 "
         >
             <div className=" flex items-center justify-center" id="hero">
                 <div
@@ -54,7 +54,7 @@ function Hero() {
                                 in optimizing their crop cultivation and
                                 financial management.
                             </motion.p>
-                            <motion.button
+                            {/* <motion.button
                                 animate={{ opacity: 1, y: 0 }}
                                 initial={{ opacity: 0, y: 100 }}
                                 transition={{
@@ -68,7 +68,7 @@ function Hero() {
                                 <span class="material-symbols-outlined">
                                     arrow_forward
                                 </span>
-                            </motion.button>
+                            </motion.button> */}
                         </div>
                     </div>
                 </div>

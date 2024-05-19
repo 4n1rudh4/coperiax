@@ -49,7 +49,7 @@ const App = () => {
     }, []);
 
     return (
-        <div className="font-poppins">
+        <div className="font-poppins  bg-[#dde7c7]">
             <Header date={date} name={username} />
             <motion.div
                 animate={{ opacity: 1, x: 0 }}

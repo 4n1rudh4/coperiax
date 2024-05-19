@@ -1,6 +1,6 @@
 function Card({ src, details, title }) {
     return (
-        <div className="card lg:card-side bg-base-100 shadow-xl group ">
+        <div className="card lg:card-side bg-brwn-0 outline outline-2 outline-black group  ">
             <figure className="w-1/3 overflow-hidden">
                 <img
                     src={src}
