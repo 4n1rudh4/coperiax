@@ -45,7 +45,8 @@ const App = () => {
     }
 
     useEffect(() => {
-        fetchArticles(API);
+        fetchArticles();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

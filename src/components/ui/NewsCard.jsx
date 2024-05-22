@@ -8,7 +8,12 @@ function NewsCard({ img, title, description, link }) {
                 <h2 className="card-title">{title}</h2>
                 <p>{description}</p>
                 <div className="card-actions justify-end">
-                    <a href={link} target="_blank" className="btn ">
+                    <a
+                        href={link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn "
+                    >
                         Check Out
                     </a>
                 </div>

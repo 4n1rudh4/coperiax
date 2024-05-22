@@ -4,7 +4,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Hero from "./components/hero";
 import { auth } from "./firebase";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 function App() {
     const [username, setUser] = useState("");
