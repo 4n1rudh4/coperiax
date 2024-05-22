@@ -12,9 +12,9 @@ function Hero() {
                 ease: [0.2, 1, 0.2, 1],
                 delay: 0.25,
             }}
-            className="px-20 py-10 "
+            className="lg:px-20 py-10 "
         >
-            <div className=" flex items-center justify-center" id="hero">
+            <div className="flex items-center justify-center" id="hero">
                 <div
                     className="hero h-[35rem] w-[90%] rounded-xl"
                     style={{
@@ -32,7 +32,7 @@ function Hero() {
                                     ease: [0.2, 1, 0.2, 1],
                                     delay: 0.5,
                                 }}
-                                className="mb-5 text-4xl font-bold font-cabin"
+                                className="mb-5 text-3xl lg:text-4xl font-bold font-cabin"
                             >
                                 Agrow FieldTech
                             </motion.h1>
@@ -44,7 +44,7 @@ function Hero() {
                                     ease: [0.2, 1, 0.2, 1],
                                     delay: 0.9,
                                 }}
-                                className="mb-5 w-[35rem] text-base"
+                                className="mb-5 w-auto  lg:w-[35rem] text-sm lg:text-base"
                             >
                                 Agrow is a comprehensive online platform
                                 meticulously designed to empower farmers in
@@ -73,17 +73,19 @@ function Hero() {
                     </div>
                 </div>
             </div>
-            <h3 className="text-3xl font-bold mt-20 font-cabin">
-                Some of the Services we provide
-            </h3>
-            <div className="grid grid-cols-2 mt-10  gap-5">
-                {cardsDetails.map((card) => (
-                    <Card
-                        src={card.src}
-                        title={card.title}
-                        details={card.details}
-                    />
-                ))}
+            <div className="px-5">
+                <h3 className="text-3xl font-bold mt-20 font-cabin">
+                    Some of the Services we provide
+                </h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 mt-10  gap-5">
+                    {cardsDetails.map((card) => (
+                        <Card
+                            src={card.src}
+                            title={card.title}
+                            details={card.details}
+                        />
+                    ))}
+                </div>
             </div>
         </motion.main>
     );

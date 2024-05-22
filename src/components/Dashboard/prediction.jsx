@@ -123,7 +123,7 @@ function Prediction() {
                     ease: [0.2, 1, 0.2, 1],
                     delay: 0.9,
                 }}
-                className="flex  justify-center w-full md:block md:w-10/12 md:m-auto p-2 ml-4"
+                className="flex justify-center w-full md:block md:w-10/12 md:m-auto p-2 ml-4"
             >
                 {state ? (
                     <div>
@@ -131,7 +131,7 @@ function Prediction() {
                             Crop Predictor
                         </h1>
 
-                        <div className="w-11/12 rounded-2xl h-fit p-20 md:grid md:grid-cols-2 gap-x-10 gap-y-5 font-poppins ">
+                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins ">
                             <div>
                                 <div className=" font-bold">
                                     Enter Nitrogen Content

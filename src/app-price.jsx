@@ -60,50 +60,54 @@ function JsonDataDisplay() {
         <div className=" bg-[#dde7c7]">
             <Header date={date} name={username} />
 
-            <p className="flex justify-center font-medium text-2xl p-4">
-                Prices of Daily Mandi Sale Prices - {date}
-            </p>
-            <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black" />
-            <div className="text-white bg-white flex gap-3 justify-center p-2">
-                <button
-                    className="hover:bg-green-200 md:block bg-green-600 p-2 rounded-full"
-                    onClick={() => {
-                        Tog2();
-                    }}
-                >
-                    Previous Page
-                </button>
-                <button
-                    className="hover:bg-green-200 md:block bg-green-600 p-2 rounded-full"
-                    onClick={() => {
-                        Tog1();
-                    }}
-                >
-                    Next Page
-                </button>
-            </div>
-            <div className="w-11/12 block m-auto border-4">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>State</th>
-                            <th>Commodity</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {console.log(price)}
-                        {price.map((props) => {
-                            return (
-                                <tr>
-                                    <td>{props.state}</td>
-                                    <td>{props.commodity}</td>
-                                    <td>₹⟩{props.modal_price / 50} / KG </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+            <div className="h-screen mt-5">
+                <p className="flex justify-center font-medium text-2xl p-4">
+                    Prices of Daily Mandi Sale Prices - {date}
+                </p>
+
+                <div className="flex gap-3 justify-center p-2">
+                    <button
+                        className="btn text-black"
+                        onClick={() => {
+                            Tog2();
+                        }}
+                    >
+                        Previous Page
+                    </button>
+                    <button
+                        className="btn text-black"
+                        onClick={() => {
+                            Tog1();
+                        }}
+                    >
+                        Next Page
+                    </button>
+                </div>
+                <div className="px-10 mt-5">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>State</th>
+                                <th>Commodity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {console.log(price)}
+                            {price.map((props) => {
+                                return (
+                                    <tr>
+                                        <td>{props.state}</td>
+                                        <td>{props.commodity}</td>
+                                        <td>
+                                            ₹⟩{props.modal_price / 50} / KG{" "}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <Footer />
         </div>

@@ -8,7 +8,7 @@ function WeatherCard({
     title,
 }) {
     return (
-        <div className="card  outline outline-2 outline-black flex items-center flex-row-reverse justify-center  ">
+        <div className="card  outline outline-2 outline-black flex items-center lg:flex-row-reverse flex-col justify-center  ">
             <div className="px-10 pt-10">
                 <img
                     src={src}

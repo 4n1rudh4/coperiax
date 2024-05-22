@@ -71,10 +71,10 @@ function WeatherApp() {
                     ease: [0.2, 1, 0.2, 1],
                     delay: 0.25,
                 }}
-                className="h-screen"
+                className="lg:h-screen my-20 "
             >
-                <div className="my-20 flex w-full justify-center items-center">
-                    <div className="w-96 flex items-center gap-2">
+                <div className="flex w-full justify-center items-center">
+                    <div className="w-96 flex items-center justify-center gap-2">
                         <input
                             type="text"
                             className=" input bg-[#dde7c7] capitalize outline outline-1 outline-black focus:outline-none"
@@ -89,7 +89,7 @@ function WeatherApp() {
                         </button>
                     </div>
                 </div>
-                <div className="px-20">
+                <div className="px-20 mt-10">
                     {loading ? (
                         <div className="flex items-center justify-center">
                             <span className="loading loading-infinity loading-lg"></span>
@@ -105,7 +105,7 @@ function WeatherApp() {
                                     ease: [0.2, 1, 0.2, 1],
                                     delay: 0.3,
                                 }}
-                                className="grid grid-cols-2 gap-10"
+                                className="grid grid-cols-1 lg:grid-cols-2 gap-10"
                             >
                                 <WeatherCard
                                     src={weather.current.condition.icon}

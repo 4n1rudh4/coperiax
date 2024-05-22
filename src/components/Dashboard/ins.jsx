@@ -36,12 +36,12 @@ function Ins() {
                     ease: [0.2, 1, 0.2, 1],
                     delay: 0.9,
                 }}
-                className="rounded-lg h-screen  my-10 p-20 "
+                className="rounded-lg lg:h-screen  my-10 lg:p-20 p-5 "
             >
-                <h1 className=" text-3xl font-bold font-cabin text-center">
+                <h1 className=" text-3xl mb-10 font-bold font-cabin text-center">
                     Instructions
                 </h1>
-                <div className="flex w-full justify-between items-center gap-10">
+                <div className="flex lg:flex-row flex-col w-full justify-between items-center gap-10">
                     <img
                         className="block m-auto rounded h-96"
                         alt="npk"
@@ -66,7 +66,7 @@ function Ins() {
                             </ul>
                         </div>
 
-                        <div className="flex justify-between">
+                        <div className="flex lg:flex-row flex-col gap-5 mt-10 justify-between">
                             <div className="flex gap-5">
                                 <a
                                     className="btn"
