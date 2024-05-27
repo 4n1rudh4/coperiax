@@ -15,6 +15,7 @@ function Signup() {
     const [username, setUser] = useState("");
     const [state2, setTrue2] = useState(true);
     const [state3, setTrue3] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
@@ -75,41 +76,46 @@ function Signup() {
         setTrue2(false);
     }
 
-    function handlesub() {
+    async function handlesub() {
         if (!values.area || !values.city || !values.crop || !values.prod) {
             setError("Fill All Fields Please");
             return;
         }
-        setTrue3(false);
         setError("");
         setSubmitdisable(true);
-        createUserWithEmailAndPassword(auth, values.email, values.password)
-            .then(async (res) => {
-                console.log(res);
-                const user = res.user;
-                await updateProfile(user, {
-                    displayName: values.name,
-                });
-                sendEmailVerification(user);
-                navigate("/login");
-                setSubmitdisable(false);
-                await setDoc(doc(db, "userdetails", user.uid), {
-                    name: values.name,
-                    email: values.email,
-                    password: values.password,
-                    phone: values.phone,
-                    area: values.area,
-                    city: values.city,
-                    crop: values.crop,
-                    prod: values.prod,
-                });
-            })
-            .catch((err) => {
-                console.log("Error-", err);
-                setSubmitdisable(false);
-                setError(err.message);
+        setLoading(true);
+        try {
+            const res = await createUserWithEmailAndPassword(
+                auth,
+                values.email,
+                values.password
+            );
+            console.log(res);
+            const user = res.user;
+            await updateProfile(user, { displayName: values.name });
+            await sendEmailVerification(user);
+            navigate("/login");
+            await setDoc(doc(db, "userdetails", user.uid), {
+                name: values.name,
+                email: values.email,
+                password: values.password,
+                phone: values.phone,
+                area: values.area,
+                city: values.city,
+                crop: values.crop,
+                prod: values.prod,
             });
+            setSubmitdisable(false);
+            setTrue3(false);
+        } catch (err) {
+            console.log("Error-", err);
+            setSubmitdisable(false);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     }
+
     var today = new Date();
     const date =
         today.getDate() +
@@ -119,16 +125,21 @@ function Signup() {
         today.getFullYear();
 
     return (
-        <>
+        <div className="relative">
             <Header date={date} name={username} />
+            {loading && (
+                <div className="bg-[#dde7c7] bg-opacity-50 w-screen h-screen grid place-items-center absolute z-10">
+                    <span className="loading loading-infinity loading-lg"></span>
+                </div>
+            )}
             <div className="bg-[#dde7c7] h-screen grid place-items-center font-poppins ">
                 {state3 ? (
-                    <div>
+                    <div className="md:w-[35rem] w-auto">
                         {state2 ? (
                             <div>
                                 {state ? (
                                     <div className="">
-                                        <div className="card shadow-lg p-6 text-center font-poppins max-w-xl   rounded-lg">
+                                        <div className="card shadow-lg p-6 text-center font-poppins rounded-lg">
                                             <div className="card-body">
                                                 <h1 className="card-title text-2xl font-bold text-gray-800 mb-4">
                                                     Signup to AGROW
@@ -231,7 +242,7 @@ function Signup() {
                                 )}{" "}
                             </div>
                         ) : (
-                            <div className="card shadow-lg p-6 text-center font-poppins max-w-xl   rounded-lg">
+                            <div className="card shadow-lg p-6 text-center font-poppins   rounded-lg">
                                 <h1 className="card-title text-2xl font-bold pb-4">
                                     Signup to AGROW
                                 </h1>
@@ -324,7 +335,7 @@ function Signup() {
                 )}
             </div>
             <Footer />
-        </>
+        </div>
     );
 }
 
