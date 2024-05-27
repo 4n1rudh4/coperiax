@@ -66,7 +66,7 @@ function Signup() {
 
         if (!passwordPattern.test(password)) {
             setError(
-                "Password must be at least 8 characters long, and include at least one letter and one number"
+                "Password must be at least 8 characters long, and include at least one letter and one number. Should not contain special charecters. "
             );
             return;
         }
