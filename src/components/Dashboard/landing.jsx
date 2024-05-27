@@ -84,7 +84,7 @@ function Landing() {
                 {state && (
                     <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4">
                         <div
-                            className="w-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95"
+                            className="w-96 h-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95"
                             onClick={call}
                         >
                             <div className=" text-3xl m-2">
@@ -130,7 +130,7 @@ function Landing() {
                             </div>
                         </div>
                         <a href="/ins">
-                            <div className="p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
+                            <div className="p-5 h-96 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
                                 <div className="flex flex-col items-center justify-center w-full gap-5">
                                     <div className="btn scale-150">
                                         <span class="material-symbols-outlined scale-150">
