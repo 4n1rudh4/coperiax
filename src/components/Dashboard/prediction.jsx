@@ -43,7 +43,7 @@ function Prediction() {
     });
 
     const [templocation, settempLocation] = useState({
-        location: "New Delhi",
+        location: "",
     });
     const [weather, setWeather] = useState(null);
     const API = `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation.location}`;
