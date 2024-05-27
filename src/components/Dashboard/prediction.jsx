@@ -72,11 +72,6 @@ function Prediction() {
         fetchArticles();
     }
 
-    useEffect(() => {
-        fetchArticles(API);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     function handle() {
         if (!values.N || !values.P || !values.K || !values.pH) {
             setError("Fill All Fields Please");
