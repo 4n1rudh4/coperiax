@@ -1,46 +1,94 @@
-import Carousel from 'react-bootstrap/Carousel';
-import Cards from '../components/cards';
-import Data from '../resources/carddata'
-
-function ImgOverlayExample() {
-  
-  return (<div className='m-auto block'>
-     <Carousel>
-      <Carousel.Item>
-        <img src="./resources/hero1.jpg" className='w-full h-auto' alt="hero"/>
-        <Carousel.Caption>
-        <button className="md:block hidden  m-auto h-fit w-fit first-letter: bg-green-600 p-3 hover:bg-green-200 font-bold text-black text-2xl mt-2 rounded-full" ><a href="/login">Click here to get Started</a></button>
-          <p className='hidden md:block md:font-medium md:text-3xl'>Agrow is a comprehensive online platform meticulously designed to empower farmers in their agricultural pursuits. Leveraging cutting-edge technology, it offers an array of indispensable tools and resources to aid farmers in optimizing their crop cultivation and financial management.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <img src="./resources/hero2.png" className='w-full h-auto' alt="hero"/>
-        
-      </Carousel.Item>
-      <Carousel.Item>
-        <img src="./resources/hero3.png" className='w-full h-auto' alt="hero"/>
-        
-      </Carousel.Item>
-      <Carousel.Item>
-        <img src="./resources/hero4.png" className='w-full h-auto' alt="hero"/>
-        
-      </Carousel.Item>
-    </Carousel>
-    <div className='block text-center pt-2'>
-    <button className="md:hidden  m-auto h-fit w-fit first-letter: bg-green-600 p-3 hover:bg-green-200 font-bold text-black text-2xl mt-2 rounded-full"><a href="/login">Click here to get Started</a></button>
-       <p className='md:hidden font-medium  text-lg'>Agrow is a comprehensive online platform meticulously designed to empower farmers in their agricultural pursuits. Leveraging cutting-edge technology, it offers an array of indispensable tools and resources to aid farmers in optimizing their crop cultivation and financial management.</p>
-    
-    <p className='font-bold text-xl  p-2'>Sailient Features</p></div>
-    <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
-    <div className='md:grid md:grid-cols-2'>
-    {Data.map((props) => (
-                <Cards
-                key={props.id}
-                src={props.src}
-                name={props.name}
-                />
-    ))}</div></div>
-  );
+import Card from "./ui/Card";
+import cardsDetails from "../resources/carddata";
+import { motion } from "framer-motion";
+function Hero() {
+    return (
+        <motion.main
+            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 500 }}
+            exit={{ opacity: 0, y: 500 }}
+            transition={{
+                duration: 1,
+                ease: [0.2, 1, 0.2, 1],
+                delay: 0.25,
+            }}
+            className="lg:px-20 py-10 "
+        >
+            <div className="flex items-center justify-center" id="hero">
+                <div
+                    className="hero h-[35rem] w-[90%] rounded-xl"
+                    style={{
+                        backgroundImage:
+                            "url(https://ezfloinjection.com/wp-content/uploads/what-is-precision-agriculture-2.jpg)",
+                    }}
+                >
+                    <div className="hero-content text-center  flex items-start justify-end h-full flex-col w-full">
+                        <div className=" text-white text-left bg-opacity-40 p-5 rounded-md  ">
+                            <motion.h1
+                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 100 }}
+                                transition={{
+                                    duration: 0.8,
+                                    ease: [0.2, 1, 0.2, 1],
+                                    delay: 0.5,
+                                }}
+                                className="mb-5 text-3xl lg:text-4xl font-bold font-cabin"
+                            >
+                                Agrow FieldTech
+                            </motion.h1>
+                            <motion.p
+                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 100 }}
+                                transition={{
+                                    duration: 0.8,
+                                    ease: [0.2, 1, 0.2, 1],
+                                    delay: 0.9,
+                                }}
+                                className="mb-5 w-auto  lg:w-[35rem] text-sm lg:text-base"
+                            >
+                                Agrow is a comprehensive online platform
+                                meticulously designed to empower farmers in
+                                their agricultural pursuits. Leveraging
+                                cutting-edge technology, it offers an array of
+                                indispensable tools and resources to aid farmers
+                                in optimizing their crop cultivation and
+                                financial management.
+                            </motion.p>
+                            {/* <motion.button
+                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, y: 100 }}
+                                transition={{
+                                    duration: 0.8,
+                                    ease: [0.2, 1, 0.2, 1],
+                                    delay: 1.2,
+                                }}
+                                className="btn btn-primary bg-[#f7bf84] border-0 hover:bg-[#232c06] text-white"
+                            >
+                                Explore
+                                <span class="material-symbols-outlined">
+                                    arrow_forward
+                                </span>
+                            </motion.button> */}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="px-5">
+                <h3 className="text-3xl font-bold mt-20 font-cabin">
+                    Some of the Services we provide
+                </h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 mt-10  gap-5">
+                    {cardsDetails.map((card) => (
+                        <Card
+                            src={card.src}
+                            title={card.title}
+                            details={card.details}
+                        />
+                    ))}
+                </div>
+            </div>
+        </motion.main>
+    );
 }
 
-export default ImgOverlayExample;
+export default Hero;

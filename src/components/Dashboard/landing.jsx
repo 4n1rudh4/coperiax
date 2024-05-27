@@ -1,65 +1,155 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../header";
 import Footer from "../footer";
-import {auth,db} from '../../firebase';
+import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-
-function Landing(){
-    const[userdata,setUserdata]=useState({
-        name:"",
-        phone:"",
-        email:"",
-        area:"",
-        city:"",
-        crop:"",
-        prod:""
-    })
-    const [id,setId]=useState("");
+import { Link } from "react-router-dom";
+function Landing() {
+    const [userdata, setUserdata] = useState({
+        name: "",
+        phone: "",
+        email: "",
+        area: "",
+        city: "",
+        crop: "",
+        prod: "",
+    });
+    const [id, setId] = useState("");
     var today = new Date();
-    const date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
-    const[state,setTrue]=useState(false);
-    const[state2,setTrue2]=useState(false);
-    useEffect(()=>{
-        auth.onAuthStateChanged((user)=>{
-            if(user){
-                setTrue(true)
-                setId(user.uid)
-                setUser(user.displayName)
-                
-            } else{
+    const date =
+        today.getDate() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getFullYear();
+    const [state, setTrue] = useState(false);
+    const [state2, setTrue2] = useState(false);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                setTrue(true);
+                setId(user.uid);
+                setUser(user.displayName);
+            } else {
                 console.log("");
             }
-        })
-    })
-    const [username,setUser]=useState("");
-    const call = async()=>{
-        const docSnap = await getDoc(doc(db,"userdetails",id));
-        const big=docSnap.data();
-        setUserdata({name:big.name,email:big.email,phone:big.phone,area:big.area,city:big.city,crop:big.crop,prod:big.prod})    
-        setTrue2(true)
-    }
-    
-    
+        });
+    });
+    const [username, setUser] = useState("");
 
-    return <>
-         <Header date={date} name={username}/>
-        <div className="text-3xl flex md:justify-center w-full m-4 font-medium">Dashboard {username}</div>
-        <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>
-        
-        {state ? <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4">
-        <button  onClick={call}>
-            <div className="md:w-96 w-fit md:h-80 h-fit p-2 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl md:bg-hero-pattern">
-                <div className="md:text-3xl text-lg font-bold m-2"> Your Info<br/> { state2 ?  <span className="text-lg   font-light"> <hr className="block pb-2 m-auto w-11/12 border-2 border-bg-black"/>Name: {userdata.name}<br/>{userdata.email} <br/> Phone: {userdata.phone} <br/> Field Size - hectares: {userdata.area} <br/> City/Town: {userdata.city} <br/> Current Crop: {userdata.crop} <br/> Production/Year - tonnes: {userdata.prod}</span> : null }</div>
-            </div></button>
-            <a href="/ins">
-            <div className="w-8/12 md:h-80 h-fit p-2 md:hover:bg-green-100 m-2 bg-slate-300 rounded-xl md:bg-prediction-pattern">
-                <div className="md:text-3xl text-lg font-bold m-2">Get Suitable Crop Recommendation</div>
+    const call = async () => {
+        setLoading(true);
+        try {
+            const docSnap = await getDoc(doc(db, "userdetails", id));
+            // console.log(docSnap.data());
+            const big = docSnap.data();
+            setUserdata({
+                name: big.name,
+                email: big.email,
+                phone: big.phone,
+                area: big.area,
+                city: big.city,
+                crop: big.crop,
+                prod: big.prod,
+            });
+            setTrue2(true);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-            </div></a>
-        </div>: <div className="block w-fit p-2  bg-green-200 m-auto mt-10 mb-10 rounded"><div className="text-xl font-medium">You are not Logged in.<a href="/signup"> Click here to <button className="hover:bg-green-400 md:block m-auto h-fit w-fit first-letter: bg-green-600 p-2 mt-2 rounded-full">Signup or Login</button></a></div></div>}
-        <Footer  />
-    </>
+    return (
+        <>
+            <Header date={date} name={username} />
+            <div className="h-screen bg-[#dde7c7] grid place-items-center">
+                {state ? (
+                    <div className="text-3xl flex justify-center font-cabin font-medium">
+                        Welcome to the dashboard,
+                        <span className="capitalize">&nbsp;{username}</span>
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center gap-5">
+                        <h1 className="text-3xl">
+                            Please Login to view the Dashboard
+                        </h1>
+                        <Link to={"/login"} className="btn">
+                            Login
+                        </Link>
+                    </div>
+                )}
 
+                {state && (
+                    <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4">
+                        <div
+                            className="w-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95"
+                            onClick={call}
+                        >
+                            <div className=" text-3xl m-2">
+                                <div className="flex flex-col items-center justify-center w-full gap-5">
+                                    <div className="btn scale-150">
+                                        <span class="material-symbols-outlined scale-150">
+                                            face
+                                        </span>
+                                    </div>
+                                    <h2 className="font-cabin">Your Info</h2>
+                                </div>
+                                {loading ? (
+                                    <>
+                                        <span className="loading loading-infinity loading-lg"></span>
+                                    </>
+                                ) : (
+                                    state2 && (
+                                        <div className="text-lg font-poppins font-light ">
+                                            <p className="capitalize">
+                                                Name:&nbsp;{userdata.name}
+                                            </p>
+                                            <p>Email:&nbsp;{userdata.email} </p>
+                                            <p>Phone:&nbsp;{userdata.phone}</p>
+                                            <p>
+                                                Field Size - hectares:&nbsp;
+                                                {userdata.area}
+                                            </p>
+                                            <p>
+                                                City/Town:&nbsp;
+                                                {userdata.city}
+                                            </p>
+                                            <p>
+                                                Current Crop:&nbsp;
+                                                {userdata.crop}
+                                            </p>
+                                            <p>
+                                                Production/Year - tonnes:&nbsp;
+                                                {userdata.prod}
+                                            </p>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        </div>
+                        <a href="/ins">
+                            <div className="p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
+                                <div className="flex flex-col items-center justify-center w-full gap-5">
+                                    <div className="btn scale-150">
+                                        <span class="material-symbols-outlined scale-150">
+                                            psychiatry
+                                        </span>
+                                    </div>
+
+                                    <h2 className="font-cabin md:text-3xl text-lg  m-2 text-center">
+                                        Get Suitable Crop Recommendation
+                                    </h2>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                )}
+            </div>
+            <Footer />
+        </>
+    );
 }
 
 export default Landing;
