@@ -39,7 +39,7 @@ function Prediction(){
     setError("");
     setSubmitdisable(true)
     console.log(crop)
-      fetch(`http://coperiax-server2.onrender.com/predict?temperature=${propsData.temperature}&humidity=${propsData.humidity}&moisture=${propsData.moisture}&soil=${soil}&crop=${crop}&N=${propsData.N}&P=${propsData.P}&K=${propsData.K}`)
+      fetch(`https://coperiax-server2.onrender.com/predict?temperature=${propsData.temperature}&humidity=${propsData.humidity}&moisture=${propsData.moisture}&soil=${soil}&crop=${crop}&N=${propsData.N}&P=${propsData.P}&K=${propsData.K}`)
       .then((res) => res.json())
       .then((data) => {
         setFert(data.predictions);
