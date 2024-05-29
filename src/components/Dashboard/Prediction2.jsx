@@ -5,6 +5,7 @@ import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Loader from "../ui/Loader";
 
 function Prediction() {
     var today = new Date();
@@ -19,6 +20,8 @@ function Prediction() {
     const [fert, setFert] = useState("");
     const [submitdisable, setSubmitdisable] = useState(false);
     const [username, setUser] = useState("");
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -53,6 +56,7 @@ function Prediction() {
     const [weather, setWeather] = useState(null);
     useEffect(() => {
         const fetchArticles1 = async () => {
+            setLoading(true);
             try {
                 const docSnap = await getDoc(doc(db, "userdetails", id));
 
@@ -72,6 +76,8 @@ function Prediction() {
                 });
             } catch (e) {
                 console.log(e);
+            } finally {
+                setLoading(false);
             }
         };
         fetchArticles1();
@@ -83,6 +89,7 @@ function Prediction() {
             setError("Please Enter Location");
             return;
         }
+        setLoading(true);
         try {
             const res = await fetch(
                 `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`
@@ -97,6 +104,8 @@ function Prediction() {
             });
         } catch (e) {
             console.error(e);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -122,7 +131,7 @@ function Prediction() {
         }
         setError("");
         setSubmitdisable(true);
-
+        setLoading(true);
         fetch(
             `https://coperiax-server2.onrender.com/predict?temperature=${values2.temprature}&humidity=${values2.humidity}&moisture=${values2.rainfall}&soil=${soil}&crop=${crop}&N=${values.N}&P=${values.P}&K=${values.K}`
         )
@@ -132,6 +141,7 @@ function Prediction() {
 
                 setState(false);
                 setSubmitdisable(false);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err.message);
@@ -139,7 +149,7 @@ function Prediction() {
     }
 
     return (
-        <div className="bg-[#dde7c7]">
+        <div className="bg-[#dde7c7] font-poppins relative">
             <Header date={date} name={username} />
             <motion.div
                 animate={{ opacity: 1, y: 0 }}
@@ -149,66 +159,75 @@ function Prediction() {
                     ease: [0.2, 1, 0.2, 1],
                     delay: 0.9,
                 }}
-                className="flex justify-center w-full md:block md:w-10/12 md:m-auto p-2 ml-4"
+                className="grid place-items-center h-full md:h-screen px-3 md:px-5 py-10"
             >
+                {loading && <Loader />}
                 {state ? (
                     <div>
                         <h1 className="m-2  text-2xl font-bold font-cabin">
                             Fertilizer Predictor
                         </h1>
 
-                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins  ">
-                            <div>
-                                <div className=" font-bold">
-                                    Enter Nitrogen Content
+                        <div className="grid place-items-center px-3 md:px-5 py-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                <div>
+                                    <div className=" font-bold">
+                                        Enter Nitrogen Content
+                                    </div>
+                                    <input
+                                        type="number"
+                                        className="ip"
+                                        onChange={(event) => {
+                                            setValues((prev) => ({
+                                                ...prev,
+                                                N: Math.round(
+                                                    event.target.value
+                                                ),
+                                            }));
+                                        }}
+                                    ></input>
                                 </div>
-                                <input
-                                    type="number"
-                                    className="ip"
-                                    onChange={(event) => {
-                                        setValues((prev) => ({
-                                            ...prev,
-                                            N: Math.round(event.target.value),
-                                        }));
-                                    }}
-                                ></input>
-                            </div>
-                            <div>
-                                <div className=" font-bold">
-                                    Enter Phosphorous Content
+                                <div>
+                                    <div className=" font-bold">
+                                        Enter Phosphorous Content
+                                    </div>
+                                    <input
+                                        type="number"
+                                        className="ip"
+                                        onChange={(event) => {
+                                            setValues((prev) => ({
+                                                ...prev,
+                                                P: Math.round(
+                                                    event.target.value
+                                                ),
+                                            }));
+                                        }}
+                                    ></input>
                                 </div>
-                                <input
-                                    type="number"
-                                    className="ip"
-                                    onChange={(event) => {
-                                        setValues((prev) => ({
-                                            ...prev,
-                                            P: Math.round(event.target.value),
-                                        }));
-                                    }}
-                                ></input>
-                            </div>
-                            <div>
-                                <div className=" font-bold">
-                                    Enter Potassium Content
+                                <div>
+                                    <div className=" font-bold">
+                                        Enter Potassium Content
+                                    </div>
+                                    <input
+                                        type="number"
+                                        className="ip"
+                                        onChange={(event) => {
+                                            setValues((prev) => ({
+                                                ...prev,
+                                                K: Math.round(
+                                                    event.target.value
+                                                ),
+                                            }));
+                                        }}
+                                    ></input>
                                 </div>
-                                <input
-                                    type="number"
-                                    className="ip"
-                                    onChange={(event) => {
-                                        setValues((prev) => ({
-                                            ...prev,
-                                            K: Math.round(event.target.value),
-                                        }));
-                                    }}
-                                ></input>
                             </div>
-                            <div className="block content-end">
-                                <div className="p-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 items-center w-full gap-5 mt-5">
+                                <div className="">
                                     <label className="text-green-700 font-bold">
                                         Select Crop Type
                                         <select
-                                            className="ml-2"
+                                            className="ip"
                                             value={crop}
                                             onChange={(event) =>
                                                 setCrop(event.target.value)
@@ -248,7 +267,7 @@ function Prediction() {
                                     <label className="text-green-700 font-bold ml-6">
                                         Select Soil Type
                                         <select
-                                            className="ml-4"
+                                            className="ip"
                                             value={soil}
                                             onChange={(event) =>
                                                 setSoil(event.target.value)
@@ -265,48 +284,55 @@ function Prediction() {
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <div className="w-full ">
-                            <div className="w-96  mx-auto">
-                                <div className=" font-bold ">
+                            <div className="mt-8">
+                                <p className=" font-bold ">
                                     Enter your City/Town Eg. New Delhi
+                                </p>
+                                <div className="flex items-center justify-center gap-5 flex-col md:flex-row">
+                                    <input
+                                        type="text"
+                                        className="ip"
+                                        value={templocation2.location}
+                                        onChange={(event) => {
+                                            settempLocation2((prev) => ({
+                                                ...prev,
+                                                location: event.target.value,
+                                            }));
+                                        }}
+                                    ></input>
+                                    <button
+                                        type="submit"
+                                        onClick={handle1}
+                                        disabled={loading}
+                                        className="btn"
+                                    >
+                                        Click Here to get Weather Details
+                                    </button>
                                 </div>
-                                <input
-                                    type="text"
-                                    className="ip"
-                                    value={templocation2.location}
-                                    onChange={(event) => {
-                                        settempLocation2((prev) => ({
-                                            ...prev,
-                                            location: event.target.value,
-                                        }));
-                                    }}
-                                ></input>
-                                <button
-                                    type="submit"
-                                    onClick={handle1}
-                                    className="btn my-5 w-full"
-                                >
-                                    Click Here to get Weather Details
-                                </button>
-                            </div>
-                            <div className="h-fit font-medium p-3 text-center   ">
-                                {weather ? (
-                                    <div>
-                                        Location : {weather.location.name},
-                                        {weather.location.region},
-                                        {weather.location.country}
-                                        <br />
-                                        Moisture : {weather.current.cloud *
-                                            2}{" "}
-                                        mm , Temperature :{" "}
-                                        {weather.current.temp_c} C , humidity :{" "}
-                                        {weather.current.humidity}
-                                    </div>
-                                ) : null}
+                                <div className="h-fit font-medium p-3 text-center mt-5 ">
+                                    {weather ? (
+                                        <div>
+                                            Location : {weather.location.name},
+                                            {weather.location.region},
+                                            {weather.location.country}
+                                            <br />
+                                            Moisture :{" "}
+                                            {weather.current.cloud * 2} mm ,
+                                            Temperature :{" "}
+                                            {weather.current.temp_c} C ,
+                                            humidity :{" "}
+                                            {weather.current.humidity}
+                                        </div>
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
-                        <div className="md:w-fit  md:mx-auto md:block md:justify-center ml-6 ">
+                        <div>
+                            <p className="flex font-medium flex-nowrap justify-center text-red-500">
+                                {error}
+                            </p>
+                        </div>
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-5 w-full mt-10">
                             <button
                                 type="submit"
                                 onClick={() => {
@@ -314,7 +340,7 @@ function Prediction() {
                                     setCrop("OK");
                                     setSoil("OK");
                                 }}
-                                disabled={submitdisable}
+                                disabled={loading}
                                 className="btn w-96 my-2  "
                             >
                                 Predict
@@ -325,27 +351,28 @@ function Prediction() {
                                     Instructions
                                 </button>
                             </a>
-                            <p className="flex font-medium flex-nowrap justify-center text-red-500">
-                                {error}
-                            </p>
                         </div>
                     </div>
                 ) : (
-                    <div className=" w-full bg-slate-50 md:flex md:justify-center  text-2xl h-fit p-10">
-                        Fertilizer Suitable for Follwing conditions:
-                        <br /> Nitrogen Content : {values.N} <br /> Phosphorous
-                        Content : {values.P} <br />
-                        Potassium Content : {values.K} <br /> Location :{" "}
-                        {weather.location.name}, {weather.location.region},
-                        {weather.location.country}
-                        <br />
-                        Moisture : {weather.current.cloud} mm , Temperature :{" "}
-                        {weather.current.temp_c} C , humidity :{" "}
-                        {weather.current.humidity} <br />
-                        <span className="font-bold text-3xl p-2 block ">
+                    <div className="bg-brwn-0 font-bold shadow-lg rounded-xl h-fit p-10 md:w-6/12 w-fit block m-auto mt-2 mb-2 text-xl">
+                        <div>Fertilizer Suitable for Following Conditions:</div>
+                        <div className="mt-4">
+                            <div>Nitrogen Content: {values.N}</div>
+                            <div>Phosphorous Content: {values.P}</div>
+                            <div>Potassium Content: {values.K}</div>
+                            <div>
+                                Location: {weather.location.name},{" "}
+                                {weather.location.region},{" "}
+                                {weather.location.country}
+                            </div>
+                            <div>Moisture: {weather.current.cloud} mm</div>
+                            <div>Temperature: {weather.current.temp_c} C</div>
+                            <div>Humidity: {weather.current.humidity}</div>
+                        </div>
+                        <div className="font-bold text-3xl p-2 mt-4">
                             {fert.toUpperCase()}
-                        </span>
-                        <Link to="/dashboard" className="btn ">
+                        </div>
+                        <Link to="/dashboard" className="btn mt-4">
                             Dashboard
                         </Link>
                     </div>

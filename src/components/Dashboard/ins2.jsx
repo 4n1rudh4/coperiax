@@ -19,7 +19,6 @@ function Ins() {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                
             }
         });
     });
@@ -81,12 +80,12 @@ function Ins() {
                                     Instructions to use the NPK test kit.
                                 </a>
                             </div>
-                            <div>
-                                <Link className="btn" to="/Prediction2">
-                                    {" "}
-                                    Proceed
-                                </Link>
-                            </div>
+                        </div>
+                        <div className="mt-5">
+                            <Link className="btn" to="/Prediction2">
+                                {" "}
+                                Proceed
+                            </Link>
                         </div>
                     </div>
                 </div>

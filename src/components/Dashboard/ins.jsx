@@ -19,7 +19,6 @@ function Ins() {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                
             }
         });
     });
@@ -67,7 +66,7 @@ function Ins() {
                         </div>
 
                         <div className="flex lg:flex-row flex-col gap-5 mt-10 justify-between">
-                            <div className="flex gap-5 lg:flex-row flex-col">
+                            <div className="flex gap-5">
                                 <a
                                     className="btn"
                                     href="https://www.indiamart.com/proddetail/soil-testing-kit-npk-ph-11190569148.html"
@@ -83,10 +82,7 @@ function Ins() {
                             </div>
                         </div>
                         <div className="mt-5">
-                            <Link
-                                className="btn w-full md:w-auto"
-                                to="/prediction"
-                            >
+                            <Link className="btn" to="/Prediction2">
                                 {" "}
                                 Proceed
                             </Link>

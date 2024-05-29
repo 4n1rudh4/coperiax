@@ -4,6 +4,7 @@ import Footer from "../footer";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import Loader from "../ui/Loader";
 
 function Login() {
     const Navigate = useNavigate();
@@ -16,16 +17,16 @@ function Login() {
     const [username, setUser] = useState("");
     const [error, setError] = useState("");
     const [submitdisable, setSubmitdisable] = useState(false);
+    const [loading, setLoading] = useState(false);
     function handlesub() {
         if (!values.email || !values.password) {
             setError("Fill All Fields Please");
             return;
         }
         setError("");
-        setSubmitdisable(true);
+        setLoading(true);
         signInWithEmailAndPassword(auth, values.email, values.password)
             .then(async (res) => {
-            
                 setSubmitdisable(false);
                 Navigate("/dashboard");
             })
@@ -33,6 +34,9 @@ function Login() {
                 console.log("Error-", err);
                 setSubmitdisable(false);
                 setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -42,7 +46,6 @@ function Login() {
                 setTrue(false);
                 setUser(user.displayName);
             } else {
-            
                 setUser("");
             }
         });
@@ -59,7 +62,8 @@ function Login() {
         <>
             <Header date={date} name={username} />
             {state ? (
-                <div className="bg-[#dde7c7] h-screen grid place-items-center">
+                <div className="bg-[#dde7c7] h-screen grid place-items-center relative">
+                    {loading && <Loader />}
                     <div className="card shadow-lg p-6 text-center font-poppins max-w-xl   rounded-lg">
                         <div className="card-body">
                             <h1 className="card-title text-2xl font-bold text-gray-800 mb-4">
@@ -89,7 +93,7 @@ function Login() {
                                 }
                             ></input>
                             <button
-                                disabled={submitdisable}
+                                disabled={loading}
                                 type="submit"
                                 className="btn mt-5"
                                 onClick={handlesub}

@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import Loader from "../ui/Loader";
 
 function Prediction() {
-    const [submitdisable, setSubmitdisable] = useState(false);
     const [error, setError] = useState("");
     const [id, setId] = useState("");
     const [loading, setLoading] = useState(true);
@@ -28,7 +27,7 @@ function Prediction() {
                 setId(user.uid);
                 setUser(user.displayName);
             } else {
-                setUser("");
+                window.location.href = "/login";
             }
         });
     });
@@ -93,7 +92,7 @@ function Prediction() {
                 `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`
             );
             const data = await res.json();
-            console.log(data);
+            // console.log(data);
             if (data.error) {
                 setError("Please Enter Valid Location");
                 setLoading(false);
@@ -137,23 +136,8 @@ function Prediction() {
         }
 
         setError("");
-        setSubmitdisable(true);
-        // fetchCropData();
-        console.log(values.N, values.P, values.K, values.pH);
-        console.log(values2.temprature, values2.humidity, values2.rainfall);
 
-        fetch(
-            `https://coperiaxserver.onrender.com/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                setCrop(data.crop);
-                setState(false);
-                setSubmitdisable(false);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
+        fetchCropData();
     }
 
     async function fetchCropData() {
@@ -166,9 +150,9 @@ function Prediction() {
                 throw new Error("Network response was not ok");
             }
             const data = await response.json();
+
             setCrop(data.crop);
             setState(false);
-            setSubmitdisable(false);
         } catch (err) {
             console.log(err.message);
         } finally {
@@ -316,21 +300,25 @@ function Prediction() {
                         </p>
                     </div>
                 ) : (
-                    <div className="w-full bg-slate-50 md:flex md:justify-center  text-2xl h-fit p-10">
-                        Crop Suitable for Follwing conditions:
-                        <br /> Nitrogen Content : {values.N} <br /> Phosphorous
-                        Content : {values.P} <br />
-                        Potassium Content : {values.K} <br /> Location :{" "}
-                        {weather.location.name}, {weather.location.region},
-                        {weather.location.country}
-                        <br />
-                        Rainfall : {weather.current.cloud} mm , Temperature :{" "}
-                        {weather.current.temp_c} C , humidity :{" "}
-                        {weather.current.humidity} <br />
-                        <span className="font-bold text-3xl p-2 block ">
+                    <div className="bg-[#e7e1c7] font-bold shadow-lg rounded-xl h-fit p-10 md:w-6/12 w-fit block m-auto mt-2 mb-2 text-xl">
+                        <p>Crop Suitable for Following Conditions:</p>
+                        <div className="mt-4">
+                            <p>Nitrogen Content: {values.N}</p>
+                            <p>Phosphorous Content: {values.P}</p>
+                            <p>Potassium Content: {values.K}</p>
+                            <p>
+                                Location: {weather.location.name},{" "}
+                                {weather.location.region},{" "}
+                                {weather.location.country}
+                            </p>
+                            <p>Rainfall: {weather.current.cloud} mm</p>
+                            <p>Temperature: {weather.current.temp_c} C</p>
+                            <p>Humidity: {weather.current.humidity}</p>
+                        </div>
+                        <p className="font-bold text-3xl p-2 mt-4">
                             {crop.toUpperCase()}
-                        </span>
-                        <Link to="/dashboard" className="btn ">
+                        </p>
+                        <Link to="/dashboard" className="btn mt-4">
                             Dashboard
                         </Link>
                     </div>
