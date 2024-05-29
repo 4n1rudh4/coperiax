@@ -10,6 +10,7 @@ import Landing from './components/Dashboard/landing';
 import Prediction from './components/Dashboard/prediction';
 import Prediction2 from './components/Dashboard/Prediction2';
 import Ins from './components/Dashboard/ins';
+import Ins2 from './components/Dashboard/ins2';
 import Logout from './components/loggedout';
 import './globals.css';
 import App from './app';
@@ -73,7 +74,10 @@ import {
       {
         path:"/prediction2",
         element : <Prediction2/>
-      },
+      },{
+        path:"/ins2",
+        element : <Ins2/>
+      }
 
   ]);
 

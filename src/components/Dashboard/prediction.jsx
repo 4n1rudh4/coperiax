@@ -67,7 +67,7 @@ function Prediction() {
             setWeather(data);
             console.log(data);
             setValues2({
-                rainfall: data.current.cloud * 2,
+                rainfall: data.current.cloud ,
                 temprature: data.current.temp_c,
                 humidity: data.current.humidity,
             });
@@ -94,7 +94,7 @@ const fetchArticles = async () => {
         setWeather(data);
         console.log(data);
         setValues2({
-            rainfall: weather.current.cloud * 2,
+            rainfall: weather.current.cloud ,
             temprature: weather.current.temp_c,
             humidity: weather.current.humidity,
         });
@@ -159,11 +159,11 @@ function handle1() {
             >
                 {state ? (
                     <div>
-                        <h1 className="m-2 text-2xl font-bold font-cabin">
+                        <h1 className="m-2  text-2xl font-bold font-cabin">
                             Crop Predictor
                         </h1>
 
-                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins ">
+                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins  ">
                             <div>
                                 <div className=" font-bold">
                                     Enter Nitrogen Content
@@ -223,9 +223,10 @@ function handle1() {
                                     }}
                                 ></input>
                             </div>
-
-                            <div>
-                            <div className=" font-bold">
+</div>
+                            <div className="w-full ">
+                            <div className="w-96  mx-auto">
+                            <div className=" font-bold ">
                                     Enter your City/Town Eg. New Delhi
                                 </div>
                                 <input
@@ -246,7 +247,7 @@ function handle1() {
                                     Click Here to get Weather Details
                                 </button>
                             </div>
-                            <div className="h-fit font-medium p-3">
+                            <div className="h-fit font-medium p-3 text-center   ">
                                 {weather ? (
                                     <div>
                                         Location : {weather.location.name},
@@ -260,26 +261,27 @@ function handle1() {
                                         {weather.current.humidity}
                                     </div>
                                 ) : null}
-                            </div>
+                            </div></div>
+                            <div className="md:w-fit  md:mx-auto md:block md:justify-center ml-6 ">
                             <button
                                 type="submit"
                                 onClick={handle}
                                 disabled={submitdisable}
-                                className="btn w-full my-2"
+                                className="btn w-96 my-2  "
                             >
                                 Predict
                             </button>
                             <a href="/ins">
                                 {" "}
-                                <button type="submit" className="btn w-full">
+                                <button type="submit" className="btn w-96  ">
                                     Instructions
                                 </button>
                             </a>
                             <p className="flex font-medium flex-nowrap justify-center text-red-500">
                                 {error}
                             </p>
-                        </div>
-                    </div>
+                        </div></div>
+                   
                 ) : (
                     <div className=" w-full bg-slate-50 md:flex md:justify-center  text-2xl h-fit p-10">
                         Crop Suitable for Follwing conditions:
@@ -289,26 +291,18 @@ function handle1() {
                         {weather.location.name}, {weather.location.region},
                         {weather.location.country}
                         <br />
-                        Rainfall : {weather.current.cloud * 2} mm , Temperature
+                        Rainfall : {weather.current.cloud } mm , Temperature
                         : {weather.current.temp_c} C , humidity :{" "}
                         {weather.current.humidity} <br />
                         <span className="font-bold text-3xl p-2 block ">
                             {crop.toUpperCase()}
                         </span>
                         <Link
-                            to="/prediction2"
-                            state={{
-                                temperature: weather.current.temp_c,
-                                humidity: weather.current.humidity,
-                                N: values.N,
-                                P: values.P,
-                                K: values.K,
-                                moisture: weather.current.precip_mm,
-                                crop: crop,
-                            }}
-                            className="btn"
+                            to="/dashboard"
+                            
+                            className="btn "
                         >
-                            Predict Fertilizer
+                            Dashboard
                         </Link>
                     </div>
                 )}

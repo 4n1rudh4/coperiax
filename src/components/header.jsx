@@ -8,7 +8,13 @@ function Header(props) {
         navigate("/loggedout");
         return signOut(auth);
     }
-
+    var today = new Date();
+    const date =
+        today.getDate() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getFullYear();
     const navigate = useNavigate();
     return (
         <>
@@ -36,7 +42,7 @@ function Header(props) {
 
                     <ul className="hidden lg:flex menu menu-horizontal px-1 text-lg">
                         <li>
-                            <Link to={"/news"}>News Today</Link>
+                            <Link to={"/news"}>News {date}</Link>
                         </li>
                         <li>
                             <Link to={"/weather"}>Weather</Link>
@@ -137,7 +143,7 @@ function Header(props) {
                                 <li className="mt-5">
                                     <div className="flex items-stretch">
                                         {props.name !== "" ? (
-                                            <div className="dropdown dropdown-end">
+                                            <div className="">
                                                 <div
                                                     tabIndex={0}
                                                     role="button"

@@ -79,7 +79,7 @@ function JsonDataDisplay() {
                     <span className="loading loading-infinity loading-lg scale-125"></span>
                 </div>
             ) : (
-                <div className="h-screen mt-5">
+                <div className="h-screen mt-5 mb-48">
                     <p className="flex justify-center font-medium text-2xl p-4">
                         Prices of Daily Mandi Sale Prices - {date}
                     </p>
