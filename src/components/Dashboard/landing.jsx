@@ -32,7 +32,7 @@ function Landing() {
                 setId(user.uid);
                 setUser(user.displayName);
             } else {
-                console.log("");
+        
             }
         });
     });
@@ -42,7 +42,6 @@ function Landing() {
         setLoading(true);
         try {
             const docSnap = await getDoc(doc(db, "userdetails", id));
-            console.log(docSnap.data());
             const big = docSnap.data();
             setUserdata({
                 name: big.name,
@@ -72,7 +71,7 @@ function Landing() {
             <Header date={date} name={username} />
             <div className="md:h-screen h-full  bg-[#dde7c7] grid place-items-center">
                 {state ? (
-                    <div className="text-3xl flex justify-center font-cabin font-medium">
+                    <div className="text-3xl flex justify-center font-cabin font-medium mt-10">
                         Welcome to the dashboard,
                         <span className="capitalize">&nbsp;{username}</span>
                     </div>
@@ -88,7 +87,7 @@ function Landing() {
                 )}
 
                 {state && (
-                    <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4 mb-48">
+                    <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4 mb-48 pt-10">
                         <div
                             className="w-96 h-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95"
                             //onClick={call} 

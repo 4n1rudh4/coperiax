@@ -26,7 +26,7 @@ function Prediction(){
                 setUser(user.displayName);
             } else {
                 setUser("");
-                console.log(user);
+                
             }
         });
     });
@@ -57,7 +57,7 @@ function Prediction(){
     const fetchArticles1 = async () => {
         try {
             const docSnap = await getDoc(doc(db, "userdetails", id));
-            console.log(docSnap.data());
+            
             const big = docSnap.data();
             settempLocation({location : big.city},
             );
@@ -66,7 +66,7 @@ function Prediction(){
             const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${big.city}`);
             const data = await res.json();
             setWeather(data);
-            console.log(data);
+            
             setValues2({
                 rainfall: data.current.cloud ,
                 temprature: data.current.temp_c,
@@ -92,7 +92,7 @@ const fetchArticles = async () => {
         const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`);
         const data = await res.json();
         setWeather(data);
-        console.log(data);
+
         setValues2({
             rainfall: weather.current.cloud ,
             temprature: weather.current.temp_c,
@@ -128,12 +128,12 @@ function handle1() {
     }
     setError("");
     setSubmitdisable(true)
-    console.log(crop)
+    
       fetch(`https://coperiax-server2.onrender.com/predict?temperature=${values2.temprature}&humidity=${values2.humidity}&moisture=${values2.rainfall}&soil=${soil}&crop=${crop}&N=${values.N}&P=${values.P}&K=${values.K}`)
       .then((res) => res.json())
       .then((data) => {
         setFert(data.predictions);
-        console.log(data.predictions)
+    
         setState(false)
         setSubmitdisable(false)
       })

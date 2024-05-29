@@ -22,7 +22,7 @@ function Signup() {
                 setTrue(false);
                 setUser(user.displayName);
             } else {
-                console.log(user);
+                
                 setUser("");
             }
         });
@@ -85,7 +85,7 @@ function Signup() {
         setSubmitdisable(true);
         createUserWithEmailAndPassword(auth, values.email, values.password)
             .then(async (res) => {
-                console.log(res);
+    
                 const user = res.user;
                 await updateProfile(user, {
                     displayName: values.name,

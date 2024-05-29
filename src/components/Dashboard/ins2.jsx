@@ -19,7 +19,7 @@ function Ins() {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                console.log(user);
+                
             }
         });
     });

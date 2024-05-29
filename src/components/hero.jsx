@@ -8,7 +8,7 @@ function Hero() {
             initial={{ opacity: 0, y: 500 }}
             exit={{ opacity: 0, y: 500 }}
             transition={{
-                duration: 1,
+                duration: 0,
                 ease: [0.2, 1, 0.2, 1],
                 delay: 0.25,
             }}

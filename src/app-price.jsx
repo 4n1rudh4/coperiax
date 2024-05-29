@@ -13,7 +13,7 @@ function JsonDataDisplay() {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                console.log(user);
+                
             }
         });
     });
@@ -31,7 +31,7 @@ function JsonDataDisplay() {
 
     const fetchArticles = async () => {
         try {
-            // console.log(API);
+            
             setLoading(true);
             const res = await fetch(API);
             const data = await res.json();
