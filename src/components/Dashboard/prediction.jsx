@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Header from "../header";
 import Footer from "../footer";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+
 function Prediction() {
     const [submitdisable, setSubmitdisable] = useState(false);
     const [error, setError] = useState("");
-
+    const [id, setId] = useState("");
+    
     var today = new Date();
     const date =
         today.getDate() +
@@ -20,6 +23,7 @@ function Prediction() {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
+                setId(user.uid);
                 setUser(user.displayName);
             } else {
                 setUser("");
@@ -34,7 +38,6 @@ function Prediction() {
         P: "",
         K: "",
         pH: "",
-        state: "",
     });
     const [values2, setValues2] = useState({
         temprature: "",
@@ -45,32 +48,64 @@ function Prediction() {
     const [templocation, settempLocation] = useState({
         location: "",
     });
+    const [templocation2, settempLocation2] = useState({
+        location: "",
+    });
     const [weather, setWeather] = useState(null);
-    const API = `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation.location}`;
-
-    const fetchArticles = async () => {
-        if (templocation.location === "") {
-            setError("Please Enter Location");
-            return;
-        }
+    useEffect(()=>{
+    const fetchArticles1 = async () => {
         try {
-            const res = await fetch(API);
+            const docSnap = await getDoc(doc(db, "userdetails", id));
+            console.log(docSnap.data());
+            const big = docSnap.data();
+            settempLocation({location : big.city},
+            );
+            settempLocation2({location : big.city},
+            );
+            const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${big.city}`);
             const data = await res.json();
             setWeather(data);
             console.log(data);
             setValues2({
-                rainfall: weather.current.cloud * 2,
-                temprature: weather.current.temp_c,
-                humidity: weather.current.humidity,
+                rainfall: data.current.cloud * 2,
+                temprature: data.current.temp_c,
+                humidity: data.current.humidity,
             });
+            
         } catch (e) {
-            console.error(e);
-        }
+            console.log(e);
+        } 
+        
     };
+fetchArticles1();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 
-    function handle1() {
-        fetchArticles();
+},[id,templocation.location])
+
+
+const fetchArticles = async () => {
+    if (templocation2.location === "") {
+        setError("Please Enter Location");
+        return;
     }
+    try {
+        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`);
+        const data = await res.json();
+        setWeather(data);
+        console.log(data);
+        setValues2({
+            rainfall: weather.current.cloud * 2,
+            temprature: weather.current.temp_c,
+            humidity: weather.current.humidity,
+        });
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+function handle1() {
+    fetchArticles();
+}
 
     function handle() {
         if (!values.N || !values.P || !values.K || !values.pH) {
@@ -90,11 +125,11 @@ function Prediction() {
             setError("Please enter Reasonable values");
             return;
         }
-
+        console.log(values2,values)
         setError("");
         setSubmitdisable(true);
         fetch(
-            `https://coperiaxserver.onrender.com/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
+            `https://coperiaxserver-production.up.railway.app/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -106,6 +141,8 @@ function Prediction() {
                 console.log(err.message);
             });
     }
+ 
+   
 
     return (
         <div className="bg-[#dde7c7]">
@@ -173,30 +210,6 @@ function Prediction() {
                                 ></input>
                             </div>
                             <div>
-                                <div className=" font-bold">
-                                    Enter your City/Town Eg. New Delhi
-                                </div>
-                                <input
-                                    type="text"
-                                    className="ip"
-                                    value={templocation.location}
-                                    onChange={(event) => {
-                                        settempLocation((prev) => ({
-                                            ...prev,
-                                            location: event.target.value,
-                                        }));
-                                    }}
-                                ></input>
-                                <button
-                                    type="submit"
-                                    onClick={handle1}
-                                    className="btn my-5 w-full"
-                                >
-                                    Click Here to get Weather Details
-                                </button>
-                            </div>
-
-                            <div>
                                 <div type="number" className=" font-bold">
                                     Enter pH content of soil
                                 </div>
@@ -209,6 +222,29 @@ function Prediction() {
                                         }));
                                     }}
                                 ></input>
+                            </div>
+
+                            <div>
+                            <div className=" font-bold">
+                                    Enter your City/Town Eg. New Delhi
+                                </div>
+                                <input
+                                    type="text"
+                                    className="ip"
+                                    value={templocation2.location}
+                                    onChange={(event) => {
+                                        settempLocation2((prev) => ({
+                                            ...prev,
+                                            location: event.target.value,
+                                        }));
+                                    }}
+                                ></input><button
+                                    type="submit"
+                                    onClick={handle1}
+                                    className="btn my-5 w-full"
+                                >
+                                    Click Here to get Weather Details
+                                </button>
                             </div>
                             <div className="h-fit font-medium p-3">
                                 {weather ? (
