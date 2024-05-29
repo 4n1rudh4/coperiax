@@ -13,7 +13,7 @@ function WeatherApp() {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                console.log(user);
+                
             }
         });
     });
@@ -40,8 +40,8 @@ function WeatherApp() {
             const res = await fetch(API);
             const data = await res.json();
             setWeather(data);
-            console.log(data);
-            // console.log(data.current.condition.text);
+           
+        
         } catch (e) {
             console.error(e);
         } finally {

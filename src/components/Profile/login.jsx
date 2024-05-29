@@ -25,7 +25,7 @@ function Login() {
         setSubmitdisable(true);
         signInWithEmailAndPassword(auth, values.email, values.password)
             .then(async (res) => {
-                console.log(res);
+            
                 setSubmitdisable(false);
                 Navigate("/dashboard");
             })
@@ -42,7 +42,7 @@ function Login() {
                 setTrue(false);
                 setUser(user.displayName);
             } else {
-                console.log("");
+            
                 setUser("");
             }
         });

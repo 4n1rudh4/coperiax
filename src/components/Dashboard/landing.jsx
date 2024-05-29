@@ -32,7 +32,6 @@ function Landing() {
                 setId(user.uid);
                 setUser(user.displayName);
             } else {
-                console.log("");
             }
         });
     });
@@ -42,7 +41,6 @@ function Landing() {
         setLoading(true);
         try {
             const docSnap = await getDoc(doc(db, "userdetails", id));
-            // console.log(docSnap.data());
             const big = docSnap.data();
             setUserdata({
                 name: big.name,
@@ -59,14 +57,20 @@ function Landing() {
         } finally {
             setLoading(false);
         }
-    };
+    }
+    call();
+    },[id]
+);
+    
+  
+   
 
     return (
         <>
             <Header date={date} name={username} />
-            <div className="h-screen bg-[#dde7c7] grid place-items-center px-5">
+            <div className="md:h-screen h-full  bg-[#dde7c7] grid place-items-center px-5">
                 {state ? (
-                    <div className="text-3xl flex justify-center font-cabin font-medium">
+                    <div className="text-3xl flex justify-center font-cabin font-medium mt-10">
                         Welcome to the dashboard,
                         <span className="capitalize">&nbsp;{username}</span>
                     </div>
@@ -82,10 +86,10 @@ function Landing() {
                 )}
 
                 {state && (
-                    <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4">
+                    <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4 mb-48 pt-10">
                         <div
-                            className="md:w-96 md:h-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 grid place-items-center"
-                            onClick={call}
+                            className="w-96 h-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95"
+                            //onClick={call} 
                         >
                             <div className=" text-3xl m-2">
                                 <div className="flex flex-col items-center justify-center w-full gap-5">
@@ -130,7 +134,7 @@ function Landing() {
                             </div>
                         </div>
                         <a href="/ins">
-                            <div className="p-5 md:h-96 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 md:w-96 grid place-items-center">
+                            <div className="p-5 md:h-48 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 md:w-96 grid place-items-center">
                                 <div className="flex flex-col items-center justify-center w-full gap-5">
                                     <div className="btn scale-150">
                                         <span class="material-symbols-outlined scale-150">
@@ -144,10 +148,24 @@ function Landing() {
                                 </div>
                             </div>
                         </a>
+                        <a href="/ins2">
+                        <div className="p-5 h-48 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
+                                <div className="flex flex-col items-center justify-center w-full gap-5">
+                                    <div className="btn scale-150">
+                                        <span class="material-symbols-outlined scale-150">
+                                            psychiatry
+                                        </span>
+                                    </div>
+
+                                    <h2 className="font-cabin md:text-3xl text-lg  m-2 text-center">
+                                        Get Feritilizer Recommendation
+                                    </h2>
+                                </div>
+                            </div></a></div>
                     </div>
                 )}
             </div>
-            <Footer />
+            <Footer/>
         </>
     );
 }

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Header from "../header";
 import Footer from "../footer";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+
 function Prediction() {
     const [submitdisable, setSubmitdisable] = useState(false);
     const [error, setError] = useState("");
-
+    const [id, setId] = useState("");
+    
     var today = new Date();
     const date =
         today.getDate() +
@@ -20,10 +23,11 @@ function Prediction() {
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             if (user) {
+                setId(user.uid);
                 setUser(user.displayName);
             } else {
                 setUser("");
-                console.log(user);
+                
             }
         });
     });
@@ -34,7 +38,6 @@ function Prediction() {
         P: "",
         K: "",
         pH: "",
-        state: "",
     });
     const [values2, setValues2] = useState({
         temprature: "",
@@ -43,39 +46,66 @@ function Prediction() {
     });
 
     const [templocation, settempLocation] = useState({
-        location: "New Delhi",
+        location: "",
+    });
+    const [templocation2, settempLocation2] = useState({
+        location: "",
     });
     const [weather, setWeather] = useState(null);
-    const API = `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation.location}`;
-
-    const fetchArticles = async () => {
-        if (templocation.location === "") {
-            setError("Please Enter Location");
-            return;
-        }
+    useEffect(()=>{
+    const fetchArticles1 = async () => {
         try {
-            const res = await fetch(API);
+            const docSnap = await getDoc(doc(db, "userdetails", id));
+        
+            const big = docSnap.data();
+            settempLocation({location : big.city},
+            );
+            settempLocation2({location : big.city},
+            );
+            const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${big.city}`);
             const data = await res.json();
             setWeather(data);
-            console.log(data);
+            
             setValues2({
-                rainfall: weather.current.cloud * 2,
-                temprature: weather.current.temp_c,
-                humidity: weather.current.humidity,
+                rainfall: data.current.cloud ,
+                temprature: data.current.temp_c,
+                humidity: data.current.humidity,
             });
+            
         } catch (e) {
-            console.error(e);
-        }
+            console.log(e);
+        } 
+        
     };
+fetchArticles1();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 
-    function handle1() {
-        fetchArticles();
+},[id,templocation.location])
+
+
+const fetchArticles = async () => {
+    if (templocation2.location === "") {
+        setError("Please Enter Location");
+        return;
     }
+    try {
+        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`);
+        const data = await res.json();
+        setWeather(data);
+        
+        setValues2({
+            rainfall: weather.current.cloud ,
+            temprature: weather.current.temp_c,
+            humidity: weather.current.humidity,
+        });
+    } catch (e) {
+        console.error(e);
+    }
+};
 
-    useEffect(() => {
-        fetchArticles(API);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+function handle1() {
+    fetchArticles();
+}
 
     function handle() {
         if (!values.N || !values.P || !values.K || !values.pH) {
@@ -95,7 +125,7 @@ function Prediction() {
             setError("Please enter Reasonable values");
             return;
         }
-
+       
         setError("");
         setSubmitdisable(true);
         fetch(
@@ -111,6 +141,8 @@ function Prediction() {
                 console.log(err.message);
             });
     }
+ 
+   
 
     return (
         <div className="bg-[#dde7c7]">
@@ -127,11 +159,11 @@ function Prediction() {
             >
                 {state ? (
                     <div>
-                        <h1 className="m-2 text-2xl font-bold font-cabin">
+                        <h1 className="m-2  text-2xl font-bold font-cabin">
                             Crop Predictor
                         </h1>
 
-                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins ">
+                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins  ">
                             <div>
                                 <div className=" font-bold">
                                     Enter Nitrogen Content
@@ -178,30 +210,6 @@ function Prediction() {
                                 ></input>
                             </div>
                             <div>
-                                <div className=" font-bold">
-                                    Enter your City/Town Eg. New Delhi
-                                </div>
-                                <input
-                                    type="text"
-                                    className="ip"
-                                    value={templocation.location}
-                                    onChange={(event) => {
-                                        settempLocation((prev) => ({
-                                            ...prev,
-                                            location: event.target.value,
-                                        }));
-                                    }}
-                                ></input>
-                                <button
-                                    type="submit"
-                                    onClick={handle1}
-                                    className="btn my-5 w-full"
-                                >
-                                    Click Here to get Weather Details
-                                </button>
-                            </div>
-
-                            <div>
                                 <div type="number" className=" font-bold">
                                     Enter pH content of soil
                                 </div>
@@ -215,7 +223,31 @@ function Prediction() {
                                     }}
                                 ></input>
                             </div>
-                            <div className="h-fit font-medium p-3">
+</div>
+                            <div className="w-full ">
+                            <div className="w-96  mx-auto">
+                            <div className=" font-bold ">
+                                    Enter your City/Town Eg. New Delhi
+                                </div>
+                                <input
+                                    type="text"
+                                    className="ip"
+                                    value={templocation2.location}
+                                    onChange={(event) => {
+                                        settempLocation2((prev) => ({
+                                            ...prev,
+                                            location: event.target.value,
+                                        }));
+                                    }}
+                                ></input><button
+                                    type="submit"
+                                    onClick={handle1}
+                                    className="btn my-5 w-full"
+                                >
+                                    Click Here to get Weather Details
+                                </button>
+                            </div>
+                            <div className="h-fit font-medium p-3 text-center   ">
                                 {weather ? (
                                     <div>
                                         Location : {weather.location.name},
@@ -229,26 +261,27 @@ function Prediction() {
                                         {weather.current.humidity}
                                     </div>
                                 ) : null}
-                            </div>
+                            </div></div>
+                            <div className="md:w-fit  md:mx-auto md:block md:justify-center ml-6 ">
                             <button
                                 type="submit"
                                 onClick={handle}
                                 disabled={submitdisable}
-                                className="btn w-full my-2"
+                                className="btn w-96 my-2  "
                             >
                                 Predict
                             </button>
                             <a href="/ins">
                                 {" "}
-                                <button type="submit" className="btn w-full">
+                                <button type="submit" className="btn w-96  ">
                                     Instructions
                                 </button>
                             </a>
                             <p className="flex font-medium flex-nowrap justify-center text-red-500">
                                 {error}
                             </p>
-                        </div>
-                    </div>
+                        </div></div>
+                   
                 ) : (
                     <div className=" w-full bg-slate-50 md:flex md:justify-center  text-2xl h-fit p-10">
                         Crop Suitable for Follwing conditions:
@@ -258,26 +291,18 @@ function Prediction() {
                         {weather.location.name}, {weather.location.region},
                         {weather.location.country}
                         <br />
-                        Rainfall : {weather.current.cloud * 2} mm , Temperature
+                        Rainfall : {weather.current.cloud } mm , Temperature
                         : {weather.current.temp_c} C , humidity :{" "}
                         {weather.current.humidity} <br />
                         <span className="font-bold text-3xl p-2 block ">
                             {crop.toUpperCase()}
                         </span>
                         <Link
-                            to="/prediction2"
-                            state={{
-                                temperature: weather.current.temp_c,
-                                humidity: weather.current.humidity,
-                                N: values.N,
-                                P: values.P,
-                                K: values.K,
-                                moisture: weather.current.precip_mm,
-                                crop: crop,
-                            }}
-                            className="btn"
+                            to="/dashboard"
+                            
+                            className="btn "
                         >
-                            Predict Fertilizer
+                            Dashboard
                         </Link>
                     </div>
                 )}

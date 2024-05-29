@@ -23,7 +23,6 @@ function Signup() {
                 setTrue(false);
                 setUser(user.displayName);
             } else {
-                console.log(user);
                 setUser("");
             }
         });
@@ -83,37 +82,31 @@ function Signup() {
         }
         setError("");
         setSubmitdisable(true);
-        setLoading(true);
-        try {
-            const res = await createUserWithEmailAndPassword(
-                auth,
-                values.email,
-                values.password
-            );
-            console.log(res);
-            const user = res.user;
-            await updateProfile(user, { displayName: values.name });
-            await sendEmailVerification(user);
-            navigate("/login");
-            await setDoc(doc(db, "userdetails", user.uid), {
-                name: values.name,
-                email: values.email,
-                password: values.password,
-                phone: values.phone,
-                area: values.area,
-                city: values.city,
-                crop: values.crop,
-                prod: values.prod,
+        createUserWithEmailAndPassword(auth, values.email, values.password)
+            .then(async (res) => {
+                const user = res.user;
+                await updateProfile(user, {
+                    displayName: values.name,
+                });
+                sendEmailVerification(user);
+                navigate("/login");
+                setSubmitdisable(false);
+                await setDoc(doc(db, "userdetails", user.uid), {
+                    name: values.name,
+                    email: values.email,
+                    password: values.password,
+                    phone: values.phone,
+                    area: values.area,
+                    city: values.city,
+                    crop: values.crop,
+                    prod: values.prod,
+                });
+            })
+            .catch((err) => {
+                console.log("Error-", err);
+                setSubmitdisable(false);
+                setError(err.message);
             });
-            setSubmitdisable(false);
-            setTrue3(false);
-        } catch (err) {
-            console.log("Error-", err);
-            setSubmitdisable(false);
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
     }
 
     var today = new Date();

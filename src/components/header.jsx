@@ -8,7 +8,13 @@ function Header(props) {
         navigate("/loggedout");
         return signOut(auth);
     }
-
+    var today = new Date();
+    const date =
+        today.getDate() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
+        today.getFullYear();
     const navigate = useNavigate();
     return (
         <>
@@ -36,7 +42,7 @@ function Header(props) {
 
                     <ul className="hidden lg:flex menu menu-horizontal px-1 text-lg">
                         <li>
-                            <Link to={"/news"}>News Today</Link>
+                            <Link to={"/news"}>News {date}</Link>
                         </li>
                         <li>
                             <Link to={"/weather"}>Weather</Link>
@@ -71,17 +77,17 @@ function Header(props) {
                     <div className="flex items-stretch">
                         {props.name !== "" ? (
                             <div className="dropdown dropdown-end">
-                                <div
+                                    <div
                                     tabIndex={0}
                                     role="button"
                                     className="btn btn-ghost rounded-btn "
                                 >
-                                    <span className="capitalize text-lg">
-                                        Welcome, {props.name}
+                                  <span className="capitalize text-lg p-2 rounded-xl hover:bg-slate-800 hover:text-white">
+                                          Welcome, {props.name}
                                     </span>
                                 </div>
-                                <ul
-                                    tabIndex={0}
+                                   <ul
+                                  tabIndex={0}
                                     className="menu dropdown-content z-[1] p-2 shadow  rounded-box w-52 mt-4  bg-[#E7E1C7]"
                                 >
                                     <li className="text-base">
@@ -90,7 +96,7 @@ function Header(props) {
                                     <li className="text-base">
                                         <button onClick={logout}>Logout</button>
                                     </li>
-                                </ul>
+                                </ul> 
                             </div>
                         ) : (
                             <Link to={"/login"} className="btn btn-ghost">
@@ -137,7 +143,7 @@ function Header(props) {
                                 <li className="mt-5">
                                     <div className="flex items-stretch">
                                         {props.name !== "" ? (
-                                            <div className="dropdown dropdown-end">
+                                            <div className="">
                                                 <div
                                                     tabIndex={0}
                                                     role="button"

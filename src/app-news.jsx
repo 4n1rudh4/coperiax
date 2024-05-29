@@ -13,7 +13,7 @@ const App = () => {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                console.log(user);
+                
             }
         });
     });
