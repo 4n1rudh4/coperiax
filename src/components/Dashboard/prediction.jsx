@@ -5,12 +5,14 @@ import { auth, db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import Loader from "../ui/Loader";
 
 function Prediction() {
     const [submitdisable, setSubmitdisable] = useState(false);
     const [error, setError] = useState("");
     const [id, setId] = useState("");
-    
+    const [loading, setLoading] = useState(true);
+
     var today = new Date();
     const date =
         today.getDate() +
@@ -27,7 +29,6 @@ function Prediction() {
                 setUser(user.displayName);
             } else {
                 setUser("");
-                
             }
         });
     });
@@ -52,60 +53,69 @@ function Prediction() {
         location: "",
     });
     const [weather, setWeather] = useState(null);
-    useEffect(()=>{
-    const fetchArticles1 = async () => {
+    useEffect(() => {
+        const fetchArticles1 = async () => {
+            try {
+                setLoading(true);
+                const docSnap = await getDoc(doc(db, "userdetails", id));
+                const big = docSnap.data();
+                settempLocation({ location: big.city });
+                settempLocation2({ location: big.city });
+                const res = await fetch(
+                    `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${big.city}`
+                );
+                const data = await res.json();
+                setWeather(data);
+
+                setValues2({
+                    rainfall: data.current.cloud,
+                    temprature: data.current.temp_c,
+                    humidity: data.current.humidity,
+                });
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchArticles1();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, templocation.location]);
+
+    const fetchArticles = async () => {
+        if (templocation2.location === "") {
+            setError("Please Enter Location");
+            return;
+        }
+        setLoading(true);
         try {
-            const docSnap = await getDoc(doc(db, "userdetails", id));
-        
-            const big = docSnap.data();
-            settempLocation({location : big.city},
+            const res = await fetch(
+                `https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`
             );
-            settempLocation2({location : big.city},
-            );
-            const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${big.city}`);
             const data = await res.json();
+            console.log(data);
+            if (data.error) {
+                setError("Please Enter Valid Location");
+                setLoading(false);
+                return;
+            }
             setWeather(data);
-            
+
             setValues2({
-                rainfall: data.current.cloud ,
-                temprature: data.current.temp_c,
-                humidity: data.current.humidity,
+                rainfall: weather.current.cloud,
+                temprature: weather.current.temp_c,
+                humidity: weather.current.humidity,
             });
-            
         } catch (e) {
-            console.log(e);
-        } 
-        
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
     };
-fetchArticles1();
-// eslint-disable-next-line react-hooks/exhaustive-deps
 
-},[id,templocation.location])
-
-
-const fetchArticles = async () => {
-    if (templocation2.location === "") {
-        setError("Please Enter Location");
-        return;
+    function handle1() {
+        fetchArticles();
     }
-    try {
-        const res = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=13831d57eef84af4bc2130729230209&q=${templocation2.location}`);
-        const data = await res.json();
-        setWeather(data);
-        
-        setValues2({
-            rainfall: weather.current.cloud ,
-            temprature: weather.current.temp_c,
-            humidity: weather.current.humidity,
-        });
-    } catch (e) {
-        console.error(e);
-    }
-};
-
-function handle1() {
-    fetchArticles();
-}
 
     function handle() {
         if (!values.N || !values.P || !values.K || !values.pH) {
@@ -125,9 +135,13 @@ function handle1() {
             setError("Please enter Reasonable values");
             return;
         }
-       
+
         setError("");
         setSubmitdisable(true);
+        // fetchCropData();
+        console.log(values.N, values.P, values.K, values.pH);
+        console.log(values2.temprature, values2.humidity, values2.rainfall);
+
         fetch(
             `https://coperiaxserver.onrender.com/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
         )
@@ -141,11 +155,30 @@ function handle1() {
                 console.log(err.message);
             });
     }
- 
-   
+
+    async function fetchCropData() {
+        setLoading(true);
+        try {
+            const response = await fetch(
+                `https://coperiaxserver.onrender.com/crop?N=${values.N}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
+            );
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            setCrop(data.crop);
+            setState(false);
+            setSubmitdisable(false);
+        } catch (err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
-        <div className="bg-[#dde7c7]">
+        <div className="bg-[#dde7c7] font-poppins relative">
+            {loading && <Loader />}
             <Header date={date} name={username} />
             <motion.div
                 animate={{ opacity: 1, y: 0 }}
@@ -155,15 +188,15 @@ function handle1() {
                     ease: [0.2, 1, 0.2, 1],
                     delay: 0.9,
                 }}
-                className="flex justify-center w-full md:block md:w-10/12 md:m-auto p-2 ml-4"
+                className="grid place-items-center lg:h-screen w-full px-3 md:px-5 py-10"
             >
                 {state ? (
                     <div>
-                        <h1 className="m-2  text-2xl font-bold font-cabin">
+                        <h1 className=" text-2xl font-bold font-cabin">
                             Crop Predictor
                         </h1>
 
-                        <div className="w-11/12 rounded-2xl h-fit p-5 lg:p-20 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10 font-poppins  ">
+                        <div className="my-5 grid md:grid-cols-2 gap-x-10 lg:gap-y-5 gap-y-10">
                             <div>
                                 <div className=" font-bold">
                                     Enter Nitrogen Content
@@ -223,12 +256,12 @@ function handle1() {
                                     }}
                                 ></input>
                             </div>
-</div>
-                            <div className="w-full ">
-                            <div className="w-96  mx-auto">
-                            <div className=" font-bold ">
-                                    Enter your City/Town Eg. New Delhi
-                                </div>
+                        </div>
+                        <div className="">
+                            <span className="font-bold">
+                                Enter your City/Town Eg. New Delhi
+                            </span>
+                            <div className="flex md:flex-row flex-col items-center gap-5">
                                 <input
                                     type="text"
                                     className="ip"
@@ -239,17 +272,19 @@ function handle1() {
                                             location: event.target.value,
                                         }));
                                     }}
-                                ></input><button
+                                ></input>
+
+                                <button
                                     type="submit"
                                     onClick={handle1}
-                                    className="btn my-5 w-full"
+                                    className="btn my-5"
                                 >
                                     Click Here to get Weather Details
                                 </button>
                             </div>
-                            <div className="h-fit font-medium p-3 text-center   ">
+                            <div className="h-fit font-medium  text-center   ">
                                 {weather ? (
-                                    <div>
+                                    <div className="p-3">
                                         Location : {weather.location.name},
                                         {weather.location.region},
                                         {weather.location.country}
@@ -261,29 +296,27 @@ function handle1() {
                                         {weather.current.humidity}
                                     </div>
                                 ) : null}
-                            </div></div>
-                            <div className="md:w-fit  md:mx-auto md:block md:justify-center ml-6 ">
+                            </div>
+                        </div>
+                        <div className="flex items-center md:flex-row  w-full justify-between flex-col">
                             <button
                                 type="submit"
                                 onClick={handle}
-                                disabled={submitdisable}
-                                className="btn w-96 my-2  "
+                                disabled={loading}
+                                className="btn my-2  "
                             >
                                 Predict
                             </button>
-                            <a href="/ins">
-                                {" "}
-                                <button type="submit" className="btn w-96  ">
-                                    Instructions
-                                </button>
+                            <a href="/ins" className="btn my-2 ">
+                                Instructions
                             </a>
-                            <p className="flex font-medium flex-nowrap justify-center text-red-500">
-                                {error}
-                            </p>
-                        </div></div>
-                   
+                        </div>
+                        <p className="flex font-medium flex-nowrap justify-center text-red-500">
+                            {error}
+                        </p>
+                    </div>
                 ) : (
-                    <div className=" w-full bg-slate-50 md:flex md:justify-center  text-2xl h-fit p-10">
+                    <div className="w-full bg-slate-50 md:flex md:justify-center  text-2xl h-fit p-10">
                         Crop Suitable for Follwing conditions:
                         <br /> Nitrogen Content : {values.N} <br /> Phosphorous
                         Content : {values.P} <br />
@@ -291,17 +324,13 @@ function handle1() {
                         {weather.location.name}, {weather.location.region},
                         {weather.location.country}
                         <br />
-                        Rainfall : {weather.current.cloud } mm , Temperature
-                        : {weather.current.temp_c} C , humidity :{" "}
+                        Rainfall : {weather.current.cloud} mm , Temperature :{" "}
+                        {weather.current.temp_c} C , humidity :{" "}
                         {weather.current.humidity} <br />
                         <span className="font-bold text-3xl p-2 block ">
                             {crop.toUpperCase()}
                         </span>
-                        <Link
-                            to="/dashboard"
-                            
-                            className="btn "
-                        >
+                        <Link to="/dashboard" className="btn ">
                             Dashboard
                         </Link>
                     </div>
