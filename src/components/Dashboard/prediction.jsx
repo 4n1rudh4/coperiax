@@ -129,7 +129,7 @@ function handle1() {
         setError("");
         setSubmitdisable(true);
         fetch(
-            `https://coperiaxserver-production.up.railway.app/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
+            `https://coperiaxserver.onrender.com/crop?N=${values.P}&P=${values.P}&K=${values.K}&pH=${values.pH}&temprature=${values2.temprature}&humidity=${values2.humidity}&avg_rainfall=${values2.rainfall}`
         )
             .then((res) => res.json())
             .then((data) => {
