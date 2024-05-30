@@ -18,7 +18,7 @@ function Prediction() {
     const [state, setState] = useState(true);
     const [id, setId] = useState("");
     const [fert, setFert] = useState("");
-    const [submitdisable, setSubmitdisable] = useState(false);
+
     const [username, setUser] = useState("");
     const [loading, setLoading] = useState(true);
 
@@ -130,7 +130,7 @@ function Prediction() {
             return;
         }
         setError("");
-        setSubmitdisable(true);
+        
         setLoading(true);
         fetch(
             `https://coperiax-server2.onrender.com/predict?temperature=${values2.temprature}&humidity=${values2.humidity}&moisture=${values2.rainfall}&soil=${soil}&crop=${crop}&N=${values.N}&P=${values.P}&K=${values.K}`
@@ -140,7 +140,6 @@ function Prediction() {
                 setFert(data.predictions);
 
                 setState(false);
-                setSubmitdisable(false);
                 setLoading(false);
             })
             .catch((err) => {

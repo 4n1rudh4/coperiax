@@ -15,7 +15,7 @@ function Login() {
     const [state, setTrue] = useState(true);
     const [username, setUser] = useState("");
     const [error, setError] = useState("");
-    const [submitdisable, setSubmitdisable] = useState(false);
+   
     const [loading, setLoading] = useState(false);
     function handlesub() {
         if (!values.email || !values.password) {
@@ -27,12 +27,11 @@ function Login() {
         signInWithEmailAndPassword(auth, values.email, values.password)
             .then(async (res) => {
             
-                setSubmitdisable(false);
+                
                 Navigate("/dashboard");
             })
             .catch((err) => {
                 console.log("Error-", err);
-                setSubmitdisable(false);
                 setError(err.message);
             })
             .finally(() => {
