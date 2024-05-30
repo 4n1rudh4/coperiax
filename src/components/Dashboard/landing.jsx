@@ -32,39 +32,34 @@ function Landing() {
                 setId(user.uid);
                 setUser(user.displayName);
             } else {
-        
             }
         });
     });
     const [username, setUser] = useState("");
     useEffect(() => {
-    const call = async () => {
-        setLoading(true);
-        try {
-            const docSnap = await getDoc(doc(db, "userdetails", id));
-            const big = docSnap.data();
-            setUserdata({
-                name: big.name,
-                email: big.email,
-                phone: big.phone,
-                area: big.area,
-                city: big.city,
-                crop: big.crop,
-                prod: big.prod,
-            });
-            setTrue2(true);
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setLoading(false);
-        }
-    }
-    call();
-    },[id]
-);
-    
-  
-   
+        const call = async () => {
+            setLoading(true);
+            try {
+                const docSnap = await getDoc(doc(db, "userdetails", id));
+                const big = docSnap.data();
+                setUserdata({
+                    name: big.name,
+                    email: big.email,
+                    phone: big.phone,
+                    area: big.area,
+                    city: big.city,
+                    crop: big.crop,
+                    prod: big.prod,
+                });
+                setTrue2(true);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        call();
+    }, [id]);
 
     return (
         <>
@@ -90,7 +85,7 @@ function Landing() {
                     <div className="block md:grid md:grid-cols-2 md:place-items-center pb-4 mb-48 pt-10">
                         <div
                             className="w-96 h-96 p-5 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95"
-                            //onClick={call} 
+                            //onClick={call}
                         >
                             <div className=" text-3xl m-2">
                                 <div className="flex flex-col items-center justify-center w-full gap-5">
@@ -134,40 +129,42 @@ function Landing() {
                                 )}
                             </div>
                         </div>
-                       <div >
-                        <a href="/ins">
-                            <div className="p-5 h-48 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
-                                <div className="flex flex-col items-center justify-center w-full gap-5">
-                                    <div className="btn scale-150">
-                                        <span class="material-symbols-outlined scale-150">
-                                            psychiatry
-                                        </span>
-                                    </div>
+                        <div>
+                            <a href="/ins">
+                                <div className="p-5 h-48 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
+                                    <div className="flex flex-col items-center justify-center w-full gap-5">
+                                        <div className="btn scale-150">
+                                            <span class="material-symbols-outlined scale-150">
+                                                psychiatry
+                                            </span>
+                                        </div>
 
-                                    <h2 className="font-cabin md:text-3xl text-lg  m-2 text-center">
-                                        Get Crop Recommendation
-                                    </h2>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="/ins2">
-                        <div className="p-5 h-48 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
-                                <div className="flex flex-col items-center justify-center w-full gap-5">
-                                    <div className="btn scale-150">
-                                        <span class="material-symbols-outlined scale-150">
-                                            psychiatry
-                                        </span>
+                                        <h2 className="font-cabin md:text-3xl text-lg  m-2 text-center">
+                                            Get Crop Recommendation
+                                        </h2>
                                     </div>
-
-                                    <h2 className="font-cabin md:text-3xl text-lg  m-2 text-center">
-                                        Get Feritilizer Recommendation
-                                    </h2>
                                 </div>
-                            </div></a></div>
+                            </a>
+                            <a href="/ins2">
+                                <div className="p-5 h-48 hover:bg-[#dde7c7] duration-200 m-2 bg-brwn-0 outline-2 outline-black outline rounded-xl cursor-pointer active:scale-95 w-96">
+                                    <div className="flex flex-col items-center justify-center w-full gap-5">
+                                        <div className="btn scale-150">
+                                            <span class="material-symbols-outlined scale-150">
+                                                psychiatry
+                                            </span>
+                                        </div>
+
+                                        <h2 className="font-cabin md:text-3xl text-lg  m-2 text-center">
+                                            Get Feritilizer Recommendation
+                                        </h2>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 )}
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 }

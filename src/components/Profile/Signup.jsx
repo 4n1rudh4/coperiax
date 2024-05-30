@@ -9,12 +9,14 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
+import Loader from "../ui/Loader";
 
 function Signup() {
     const [state, setTrue] = useState(true);
     const [username, setUser] = useState("");
     const [state2, setTrue2] = useState(true);
-    const [state3, setTrue3] = useState(true);
+    const [state3, setState3] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
@@ -22,7 +24,6 @@ function Signup() {
                 setTrue(false);
                 setUser(user.displayName);
             } else {
-                
                 setUser("");
             }
         });
@@ -75,17 +76,16 @@ function Signup() {
         setTrue2(false);
     }
 
-    function handlesub() {
+    async function handlesub() {
         if (!values.area || !values.city || !values.crop || !values.prod) {
             setError("Fill All Fields Please");
             return;
         }
-        setTrue3(false);
         setError("");
+        setLoading(true);
         setSubmitdisable(true);
         createUserWithEmailAndPassword(auth, values.email, values.password)
             .then(async (res) => {
-    
                 const user = res.user;
                 await updateProfile(user, {
                     displayName: values.name,
@@ -93,6 +93,7 @@ function Signup() {
                 sendEmailVerification(user);
                 navigate("/login");
                 setSubmitdisable(false);
+
                 await setDoc(doc(db, "userdetails", user.uid), {
                     name: values.name,
                     email: values.email,
@@ -103,13 +104,18 @@ function Signup() {
                     crop: values.crop,
                     prod: values.prod,
                 });
+                setState3(false);
             })
             .catch((err) => {
                 console.log("Error-", err);
                 setSubmitdisable(false);
                 setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
+
     var today = new Date();
     const date =
         today.getDate() +
@@ -119,16 +125,17 @@ function Signup() {
         today.getFullYear();
 
     return (
-        <>
+        <div className="relative">
             <Header date={date} name={username} />
+            {loading && <Loader />}
             <div className="bg-[#dde7c7] h-screen grid place-items-center font-poppins ">
                 {state3 ? (
-                    <div>
+                    <div className="md:w-[35rem] w-auto">
                         {state2 ? (
                             <div>
                                 {state ? (
                                     <div className="">
-                                        <div className="card shadow-lg p-6 text-center font-poppins max-w-xl   rounded-lg">
+                                        <div className="card shadow-lg p-6 text-center font-poppins rounded-lg">
                                             <div className="card-body">
                                                 <h1 className="card-title text-2xl font-bold text-gray-800 mb-4">
                                                     Signup to AGROW
@@ -231,7 +238,7 @@ function Signup() {
                                 )}{" "}
                             </div>
                         ) : (
-                            <div className="card shadow-lg p-6 text-center font-poppins max-w-xl   rounded-lg">
+                            <div className="card shadow-lg p-6 text-center font-poppins   rounded-lg">
                                 <h1 className="card-title text-2xl font-bold pb-4">
                                     Signup to AGROW
                                 </h1>
@@ -324,7 +331,7 @@ function Signup() {
                 )}
             </div>
             <Footer />
-        </>
+        </div>
     );
 }
 
